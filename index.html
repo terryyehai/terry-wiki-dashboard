@@ -8,28 +8,29 @@
 :root {
   --bg: #0d0f14;
   --panel: rgba(255,255,255,0.04);
+  --panel-hover: rgba(255,255,255,0.07);
   --border: rgba(255,255,255,0.08);
+  --border-strong: rgba(255,255,255,0.14);
   --text: #e8e4df;
   --muted: #7a766f;
   --accent: #c8a96e;
-  --accent2: #8b9e6e;
-  --green: #6eb89b;
-  --red: #c47070;
-  --blue: #6e8bc8;
-  --purple: #9b7ec8;
+  --accent-dim: rgba(200,169,110,0.15);
+  --teal: #8b9e6e;
   --chip: rgba(255,255,255,0.06);
-  --radius: 14px;
-  --font: "SF Pro Display", "Noto Sans TC", -apple-system, sans-serif;
+  --radius: 12px;
+  --radius-lg: 18px;
+  --font: "SF Pro Display","Noto Sans TC",-apple-system,sans-serif;
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
 body {
   background: var(--bg);
-  background-image: radial-gradient(ellipse at 20% 0%, rgba(110,100,180,0.08) 0%, transparent 60%),
-                    radial-gradient(ellipse at 80% 100%, rgba(100,160,140,0.06) 0%, transparent 60%);
+  background-image:
+    radial-gradient(ellipse at 15% 0%, rgba(110,100,180,0.07) 0%, transparent 55%),
+    radial-gradient(ellipse at 85% 100%, rgba(100,160,140,0.06) 0%, transparent 55%);
   color: var(--text);
   font-family: var(--font);
-  line-height: 1.7;
+  line-height: 1.65;
   min-height: 100vh;
 }
 a { color: var(--accent); text-decoration: none; }
@@ -38,282 +39,229 @@ a:hover { text-decoration: underline; }
 /* ── NAV ── */
 nav {
   position: sticky; top: 0; z-index: 100;
-  background: rgba(13,15,20,0.85);
-  backdrop-filter: blur(12px);
+  background: rgba(13,15,20,0.88);
+  backdrop-filter: blur(16px);
   border-bottom: 1px solid var(--border);
-  padding: 0 24px;
-  display: flex; align-items: center; gap: 24px;
-  height: 56px;
+  padding: 0 28px;
+  display: flex; align-items: center; gap: 0;
+  height: 54px;
 }
 nav .brand {
-  font-size: 15px; font-weight: 800;
+  font-size: 15px; font-weight: 900;
   color: var(--text); letter-spacing: -.02em;
   display: flex; align-items: center; gap: 8px;
+  margin-right: 32px;
 }
-nav .brand span { font-size: 18px; }
-nav .nav-links { display: flex; gap: 4px; margin-left: auto; }
-nav .nav-link {
-  padding: 6px 14px; border-radius: 8px;
+nav .brand span { font-size: 17px; }
+.nav-tabs { display: flex; gap: 2px; }
+.nav-tab {
+  padding: 6px 16px; border-radius: 8px;
   font-size: 13px; font-weight: 600;
-  color: var(--muted); transition: .15s;
+  color: var(--muted); cursor: pointer; border: none;
+  background: none; transition: .15s;
 }
-nav .nav-link:hover { color: var(--text); background: var(--chip); text-decoration: none; }
-nav .nav-link.active { color: var(--accent); }
-
-/* ── HERO ── */
-.hero {
-  max-width: 1100px; margin: 0 auto;
-  padding: 72px 24px 56px;
-  text-align: center;
+.nav-tab:hover { color: var(--text); background: var(--chip); }
+.nav-tab.active { color: var(--accent); background: var(--accent-dim); }
+.nav-spacer { flex: 1; }
+.nav-search-wrap {
+  position: relative;
 }
-.hero .eyebrow {
-  font-size: 11px; font-weight: 700; letter-spacing: .18em;
-  text-transform: uppercase; color: var(--accent);
-  margin-bottom: 16px;
-}
-.hero h1 {
-  font-size: clamp(32px, 5vw, 52px);
-  font-weight: 900; letter-spacing: -.03em;
-  line-height: 1.15;
-  margin-bottom: 16px;
-  background: linear-gradient(135deg, #e8e4df 0%, #c8a96e 100%);
-  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-}
-.hero p {
-  font-size: 17px; color: var(--muted);
-  max-width: 580px; margin: 0 auto 36px;
-  line-height: 1.8;
-}
-.hero-stats {
-  display: flex; justify-content: center; gap: 32px;
-  flex-wrap: wrap; margin-bottom: 40px;
-}
-.hero-stat {
-  background: var(--panel);
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  padding: 18px 28px;
-  min-width: 120px;
-}
-.hero-stat .num {
-  font-size: 32px; font-weight: 900;
-  color: var(--accent); line-height: 1;
-}
-.hero-stat .label {
-  font-size: 12px; color: var(--muted);
-  margin-top: 6px; font-weight: 600;
-}
-
-/* ── SECTION ── */
-.section {
-  max-width: 1100px; margin: 0 auto;
-  padding: 0 24px 64px;
-}
-.section-header {
-  display: flex; align-items: center; gap: 14px;
-  margin-bottom: 24px;
-}
-.section-title {
-  font-size: 13px; font-weight: 800;
-  letter-spacing: .1em; text-transform: uppercase;
-  color: var(--muted);
-}
-.section-title::after {
-  content: '';
-  display: block; height: 1px;
-  background: var(--border); flex: 1; min-width: 40px;
-}
-
-/* ── GRID ── */
-.grid-3 {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 14px;
-}
-
-/* ── CARD ── */
-.card {
-  background: var(--panel);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 20px;
-  transition: border-color .2s;
-}
-.card:hover { border-color: rgba(255,255,255,0.15); }
-
-/* ── FLOW DIAGRAM ── */
-.flow-diagram {
-  background: var(--panel);
-  border: 1px solid var(--border);
-  border-radius: 20px;
-  padding: 40px 32px;
-  display: flex; align-items: center; justify-content: center;
-  gap: 0; flex-wrap: wrap;
-}
-.flow-step {
-  display: flex; flex-direction: column; align-items: center;
-  gap: 10px; padding: 0 20px;
-}
-.flow-icon {
-  width: 56px; height: 56px; border-radius: 16px;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 24px;
-}
-.flow-label { font-size: 13px; font-weight: 700; text-align: center; color: var(--text); }
-.flow-desc { font-size: 11px; color: var(--muted); text-align: center; max-width: 100px; }
-.flow-arrow {
-  font-size: 22px; color: var(--border);
-  margin-top: -20px; flex-shrink: 0;
-}
-
-/* ── SKILL GRID ── */
-.skill-category {
-  margin-bottom: 28px;
-}
-.skill-cat-title {
-  font-size: 12px; font-weight: 800;
-  letter-spacing: .1em; text-transform: uppercase;
-  color: var(--accent); margin-bottom: 10px;
-  display: flex; align-items: center; gap: 8px;
-}
-.skill-cat-title::before {
-  content: ''; width: 3px; height: 14px;
-  background: var(--accent); border-radius: 2px;
-}
-.skill-tags { display: flex; flex-wrap: wrap; gap: 8px; }
-.skill-tag {
-  display: inline-flex; align-items: center; gap: 5px;
-  background: var(--chip);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 5px 10px;
-  font-size: 12px; font-weight: 600;
-  color: var(--text);
-  cursor: default;
-  transition: border-color .15s, background .15s;
-}
-.skill-tag:hover { border-color: var(--accent); background: rgba(200,169,110,0.08); }
-.skill-tag .skill-count {
-  background: var(--accent); color: #0d0f14;
-  border-radius: 999px;
-  padding: 1px 6px;
-  font-size: 10px; font-weight: 800;
-}
-
-/* ── WIKI TREE ── */
-.wiki-tree { display: flex; flex-direction: column; gap: 10px; }
-.wiki-node {
-  background: var(--panel);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  overflow: hidden;
-}
-.wiki-node-header {
-  padding: 14px 16px;
-  display: flex; align-items: center; gap: 10px;
-  cursor: pointer;
-  transition: background .15s;
-}
-.wiki-node-header:hover { background: rgba(255,255,255,0.03); }
-.wiki-node-icon { font-size: 18px; }
-.wiki-node-label {
-  font-size: 14px; font-weight: 700; flex: 1;
-}
-.wiki-node-count {
-  font-size: 11px; color: var(--muted);
-  background: var(--chip); padding: 2px 8px;
-  border-radius: 999px;
-}
-.wiki-node-body {
-  border-top: 1px solid var(--border);
-  padding: 12px 16px;
-  display: none;
-}
-.wiki-node.open .wiki-node-body { display: block; }
-.wiki-node.open .wiki-node-header .arrow { transform: rotate(90deg); }
-.arrow { font-size: 12px; transition: transform .2s; color: var(--muted); }
-.wiki-child {
-  display: flex; align-items: center; gap: 8px;
-  padding: 6px 0;
-  font-size: 13px; color: var(--text);
-  border-bottom: 1px solid rgba(255,255,255,0.04);
-}
-.wiki-child:last-child { border-bottom: none; }
-.wiki-child .type-badge {
-  font-size: 9px; font-weight: 800; letter-spacing: .08em;
-  text-transform: uppercase;
-  padding: 2px 6px; border-radius: 4px;
-  flex-shrink: 0;
-}
-.badge-entity { background: rgba(110,140,200,0.2); color: var(--blue); }
-.badge-concept { background: rgba(155,126,200,0.2); color: var(--purple); }
-.badge-raw { background: rgba(110,184,155,0.2); color: var(--green); }
-
-/* ── QUERY BOX ── */
-.query-box {
-  background: var(--panel);
-  border: 1px solid var(--border);
-  border-radius: 20px;
-  padding: 32px;
-}
-.query-box h3 {
-  font-size: 18px; font-weight: 800; margin-bottom: 8px;
-}
-.query-box p { font-size: 14px; color: var(--muted); margin-bottom: 20px; }
-.query-form { display: flex; gap: 10px; flex-wrap: wrap; }
-.query-input {
-  flex: 1; min-width: 240px;
+.nav-search {
   background: rgba(255,255,255,0.05);
   border: 1px solid var(--border);
   border-radius: 10px;
-  padding: 12px 16px;
-  font-size: 14px; font-family: inherit;
-  color: var(--text); outline: none;
-  transition: border-color .2s;
+  padding: 7px 14px 7px 34px;
+  font-size: 13px; font-family: inherit;
+  color: var(--text); width: 220px;
+  outline: none; transition: border-color .2s, width .2s;
 }
-.query-input:focus { border-color: var(--accent); }
-.query-input::placeholder { color: var(--muted); }
-.query-btn {
-  background: var(--accent); color: #0d0f14;
-  border: none; border-radius: 10px;
-  padding: 12px 24px;
-  font-size: 14px; font-weight: 800;
-  cursor: pointer; transition: opacity .15s;
+.nav-search:focus { border-color: var(--accent); width: 280px; }
+.nav-search::placeholder { color: var(--muted); }
+.nav-search-icon {
+  position: absolute; left: 10px; top: 50%;
+  transform: translateY(-50%);
+  color: var(--muted); font-size: 13px; pointer-events: none;
 }
-.query-btn:hover { opacity: 0.85; }
-.query-result {
-  margin-top: 20px;
+
+/* ── HERO ── */
+.hero {
+  max-width: 1200px; margin: 0 auto;
+  padding: 64px 28px 48px;
+}
+.hero h1 {
+  font-size: clamp(28px,4vw,46px); font-weight: 900;
+  letter-spacing: -.03em; line-height: 1.15;
+  margin-bottom: 12px;
+  background: linear-gradient(135deg,#e8e4df 0%,#c8a96e 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+.hero p { font-size: 16px; color: var(--muted); max-width: 540px; margin-bottom: 32px; }
+.hero-stats { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 8px; }
+.hero-stat {
+  background: var(--panel); border: 1px solid var(--border);
+  border-radius: 14px; padding: 14px 22px;
+  display: flex; align-items: center; gap: 12px;
+}
+.hero-stat .num { font-size: 26px; font-weight: 900; color: var(--accent); line-height: 1; }
+.hero-stat .label { font-size: 12px; color: var(--muted); font-weight: 600; }
+.hero-stat .sep { width: 1px; height: 28px; background: var(--border); }
+
+/* ── SECTION ── */
+.section {
+  max-width: 1200px; margin: 0 auto;
+  padding: 0 28px 56px;
+}
+.section-header {
+  display: flex; align-items: center; gap: 16px;
+  margin-bottom: 20px;
+}
+.section-title { font-size: 20px; font-weight: 900; letter-spacing: -.02em; }
+.section-count {
+  font-size: 11px; color: var(--muted);
+  background: var(--chip); padding: 3px 9px;
+  border-radius: 999px; font-weight: 600;
+}
+
+/* ── FILTER CHIPS ── */
+.filter-row { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
+.filter-chip {
+  padding: 5px 14px; border-radius: 999px;
+  font-size: 12px; font-weight: 700;
+  border: 1px solid var(--border);
+  background: var(--panel); color: var(--muted);
+  cursor: pointer; transition: .15s;
+  letter-spacing: .02em;
+}
+.filter-chip:hover { border-color: var(--border-strong); color: var(--text); }
+.filter-chip.active {
+  background: var(--accent-dim);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+/* ── PERSPECTIVE CARDS ── */
+.perspective-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 14px;
+}
+.p-card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  transition: border-color .2s, background .2s, transform .15s;
+  cursor: default;
+  position: relative;
+  overflow: hidden;
+}
+.p-card::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0;
+  height: 2px;
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+}
+.p-card[data-domain="投資"]::before { background: linear-gradient(90deg,#c8a96e,#e8c87a); }
+.p-card[data-domain="AI/科技"]::before { background: linear-gradient(90deg,#6e8bc8,#8baad4); }
+.p-card[data-domain="內容創作"]::before { background: linear-gradient(90deg,#9b7ec8,#b89ed4); }
+.p-card[data-domain="政治/商業"]::before { background: linear-gradient(90deg,#c47070,#d48a8a); }
+.p-card[data-domain="其他"]::before { background: linear-gradient(90deg,#7a766f,#9a968f); }
+
+.p-card:hover {
+  border-color: var(--border-strong);
+  background: var(--panel-hover);
+  transform: translateY(-1px);
+}
+.p-card-header { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 10px; }
+.p-domain {
+  font-size: 9px; font-weight: 900; letter-spacing: .1em;
+  text-transform: uppercase; padding: 3px 8px;
+  border-radius: 6px; flex-shrink: 0; margin-top: 2px;
+}
+.p-domain.投資 { background: rgba(200,169,110,0.18); color: #c8a96e; }
+.p-domain.AI-科技 { background: rgba(110,139,200,0.18); color: #8aacd4; }
+.p-domain.內容創作 { background: rgba(155,126,200,0.18); color: #b89ed4; }
+.p-domain.政治-商業 { background: rgba(196,112,112,0.18); color: #d48a8a; }
+.p-domain.其他 { background: rgba(122,118,111,0.18); color: #9a968f; }
+.p-name { font-size: 15px; font-weight: 900; color: var(--text); line-height: 1.3; }
+.p-tagline {
+  font-size: 13px; font-weight: 700;
+  color: var(--accent); margin-bottom: 8px;
+  line-height: 1.4;
+}
+.p-desc { font-size: 12px; color: var(--muted); line-height: 1.7; }
+.p-trigger {
+  margin-top: 10px; padding-top: 10px;
   border-top: 1px solid var(--border);
-  padding-top: 20px;
-  display: none;
+  font-size: 11px; color: var(--muted);
+  line-height: 1.5;
 }
-.query-result.show { display: block; }
-.query-result .result-text {
-  font-size: 14px; line-height: 1.9;
-  color: var(--text); white-space: pre-wrap;
+.p-trigger span { color: var(--accent); font-weight: 600; }
+
+/* ── SKILL CARDS ── */
+.skill-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 12px;
 }
-.query-result .result-meta {
-  font-size: 12px; color: var(--muted); margin-top: 10px;
+.s-card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px;
+  transition: border-color .2s, background .2s;
+  display: flex; flex-direction: column; gap: 6px;
 }
-.example-queries { margin-top: 14px; display: flex; flex-wrap: wrap; gap: 8px; }
-.example-q {
-  background: var(--chip); border: 1px solid var(--border);
-  border-radius: 8px; padding: 5px 10px;
-  font-size: 12px; color: var(--muted);
-  cursor: pointer; transition: color .15s, border-color .15s;
+.s-card:hover { border-color: var(--border-strong); background: var(--panel-hover); }
+.s-card-header { display: flex; align-items: center; gap: 8px; }
+.s-cat {
+  font-size: 9px; font-weight: 900; letter-spacing: .08em;
+  text-transform: uppercase;
+  padding: 2px 7px; border-radius: 5px;
+  background: var(--chip); color: var(--muted);
+  flex-shrink: 0;
 }
-.example-q:hover { color: var(--accent); border-color: var(--accent); }
+.s-name { font-size: 13px; font-weight: 800; color: var(--text); }
+.s-desc { font-size: 12px; color: var(--muted); line-height: 1.6; flex: 1; }
+.s-trigger {
+  font-size: 11px; color: var(--muted);
+  padding: 6px 8px;
+  background: rgba(200,169,110,0.07);
+  border-radius: 7px;
+  line-height: 1.5;
+  margin-top: 2px;
+}
+.s-trigger span { color: var(--accent); font-weight: 600; }
+
+/* ── EMPTY STATE ── */
+.empty-state {
+  text-align: center; padding: 48px 0;
+  color: var(--muted); font-size: 14px;
+}
+.empty-state .emo { font-size: 32px; margin-bottom: 12px; display: block; }
+
+/* ── SECTION DIVIDER ── */
+.divider {
+  border: none; border-top: 1px solid var(--border);
+  margin: 0 0 0 0;
+}
 
 /* ── FOOTER ── */
 footer {
   border-top: 1px solid var(--border);
-  padding: 28px 24px;
+  padding: 24px 28px;
   text-align: center;
   font-size: 12px; color: var(--muted);
-  max-width: 1100px; margin: 0 auto;
+  max-width: 1200px; margin: 0 auto;
 }
-footer a { color: var(--muted); }
-footer a:hover { color: var(--accent); text-decoration: none; }
+
+/* ── UTIL ── */
+.hidden { display: none !important; }
+.tag-AI { color: #8aacd4; }
+.tag-內容 { color: #b89ed4; }
+.tag-投資 { color: #c8a96e; }
+.tag-政治 { color: #d48a8a; }
+.tag-系統 { color: #7a968f; }
 </style>
 </head>
 <body>
@@ -321,470 +269,264 @@ footer a:hover { color: var(--accent); text-decoration: none; }
 <!-- NAV -->
 <nav>
   <div class="brand"><span>🧠</span> Hermes Wiki</div>
-  <div class="nav-links">
-    <a class="nav-link active" href="#overview">總覽</a>
-    <a class="nav-link" href="#skills">技能清單</a>
-    <a class="nav-link" href="#structure">知識結構</a>
-    <a class="nav-link" href="#loop">學習迴圈</a>
-    <a class="nav-link" href="#query">查詢</a>
+  <div class="nav-tabs">
+    <button class="nav-tab active" data-tab="overview">總覽</button>
+    <button class="nav-tab" data-tab="perspectives">👤 人物視角</button>
+    <button class="nav-tab" data-tab="skills">⚙️ Skills</button>
+  </div>
+  <div class="nav-spacer"></div>
+  <div class="nav-search-wrap">
+    <span class="nav-search-icon">🔍</span>
+    <input class="nav-search" id="navSearch" placeholder="搜尋..." autocomplete="off">
   </div>
 </nav>
 
 <!-- HERO -->
 <section class="hero" id="overview">
-  <div class="eyebrow">Hermes Agent — Personal Knowledge OS</div>
   <h1>打造會長大的知識庫</h1>
-  <p>將來自文章、訪談、產品的碎片知識，沉澱成可搜索、可交叉引用、可持續迭代的 wiki。知識在前，工具在後。</p>
+  <p>195 個 Skills × 22 個思維視角，全部可搜尋、可過濾、即時找觸發關鍵字。</p>
   <div class="hero-stats">
     <div class="hero-stat">
-      <div class="num">182</div>
-      <div class="label">Skills</div>
+      <div class="num">195</div><div class="label">Skills</div>
     </div>
+    <div class="sep"></div>
     <div class="hero-stat">
-      <div class="num">22</div>
-      <div class="label">人物視角</div>
+      <div class="num">22</div><div class="label">人物視角</div>
     </div>
+    <div class="sep"></div>
     <div class="hero-stat">
-      <div class="num">9</div>
-      <div class="label">Wiki 頁面</div>
+      <div class="num">32</div><div class="label">分類</div>
     </div>
+    <div class="sep"></div>
     <div class="hero-stat">
-      <div class="num">4</div>
-      <div class="label">領域</div>
-    </div>
-    <div class="hero-stat">
-      <div class="num">6</div>
-      <div class="label">股票分析 Skill</div>
+      <div class="num">4</div><div class="label">視角領域</div>
     </div>
   </div>
 </section>
 
-<!-- SKILLS INVENTORY -->
-<section class="section" id="skills">
+<!-- PERSPECTIVES -->
+<section class="section hidden" id="perspectives-section">
   <div class="section-header">
-    <div class="section-title">Skill 全景圖</div>
+    <div class="section-title">👤 人物視角</div>
+    <div class="section-count" id="persp-count">22 個</div>
   </div>
-  <div class="card" style="max-height: 600px; overflow-y: auto;">
-
-<div class="skill-category"><div class="skill-cat-title">wealth-management (22)</div><div class="skill-tags">
-<span class="skill-tag">技術價格追蹤系統 <span class="skill-count">1</span></span>
-<span class="skill-tag">stock-name-mapping-maintenance <span class="skill-count">1</span></span>
-<span class="skill-tag">高級股票分析系統 <span class="skill-count">1</span></span>
-<span class="skill-tag">taiwan-stock-optimization <span class="skill-count">1</span></span>
-<span class="skill-tag">quantitative-trade-tracking-sop <span class="skill-count">1</span></span>
-<span class="skill-tag">地緣政治事件分析 <span class="skill-count">1</span></span>
-<span class="skill-tag">trading-agents-integration <span class="skill-count">1</span></span>
-<span class="skill-tag">daily-watchlist-quantitative-analysis <span class="skill-count">1</span></span>
-<span class="skill-tag">quant-portfolio-analysis <span class="skill-count">1</span></span>
-<span class="skill-tag">portfolio-strategy <span class="skill-count">1</span></span>
-<span class="skill-tag">wealth-management-committee-review <span class="skill-count">1</span></span>
-<span class="skill-tag">00981A 主動追蹤 <span class="skill-count">1</span></span>
-<span class="skill-tag">taiwan-stock-data-recovery <span class="skill-count">1</span></span>
-<span class="skill-tag">stock-recommendation-scoring-system <span class="skill-count">1</span></span>
-<span class="skill-tag">beginner-friendly-stock-analysis-report <span class="skill-count">1</span></span>
-<span class="skill-tag">stock-mapping-troubleshooting <span class="skill-count">1</span></span>
-<span class="skill-tag">mcp-openbb-integration <span class="skill-count">1</span></span>
-<span class="skill-tag">surgical-portfolio-rotation <span class="skill-count">1</span></span>
-<span class="skill-tag">stock-name-mapping-debug <span class="skill-count">1</span></span>
-<span class="skill-tag">taiwan-stock-data-maintenance <span class="skill-count">1</span></span>
-<span class="skill-tag">nuwa-mind-distillation <span class="skill-count">1</span></span>
-<span class="skill-tag">etf-phased-entry-strategy <span class="skill-count">1</span></span>
-</div></div>
-
-<div class="skill-category"><div class="skill-cat-title">devops (26)</div><div class="skill-tags">
-<span class="skill-tag">hermes-onboarding-audit</span>
-<span class="skill-tag">webhook-subscriptions</span>
-<span class="skill-tag">js-eyes-deployment</span>
-<span class="skill-tag">minimax-api-setup</span>
-<span class="skill-tag">docker-deployment-timeouts</span>
-<span class="skill-tag">hermes-model-audit</span>
-<span class="skill-tag">hermes-startup-memory-bootstrap</span>
-<span class="skill-tag">env-file-display-pitfall</span>
-<span class="skill-tag">minimax-official-auth-fix</span>
-<span class="skill-tag">service-recovery-debug</span>
-<span class="skill-tag">hermes-js-eyes</span>
-<span class="skill-tag">model-picker-maintenance</span>
-<span class="skill-tag">cron-delivery-fix</span>
-<span class="skill-tag">hermes-cron-audit</span>
-<span class="skill-tag">api-quota-optimization</span>
-<span class="skill-tag">hermes-memory-improvement</span>
-<span class="skill-tag">js-eyes</span>
-<span class="skill-tag">restart-hermes-agent</span>
-<span class="skill-tag">diagnose-model-failures</span>
-<span class="skill-tag">hermes-model-optimization-config</span>
-<span class="skill-tag">fix-cron-telegram-delivery</span>
-<span class="skill-tag">openclaw-to-hermes-migration</span>
-<span class="skill-tag">openclaw-recovery</span>
-<span class="skill-tag">nvidia-api-config-debug</span>
-<span class="skill-tag">fix-model-visibility-and-minimax</span>
-<span class="skill-tag">minimax-cron-troubleshooting</span>
-</div></div>
-
-<div class="skill-category"><div class="skill-cat-title">perspectives (22)</div><div class="skill-tags">
-<span class="skill-tag">孫宇晨</span>
-<span class="skill-tag">馬斯克</span>
-<span class="skill-tag">蒙格</span>
-<span class="skill-tag">簡立峰</span>
-<span class="skill-tag">卡帕西</span>
-<span class="skill-tag">賈伯斯</span>
-<span class="skill-tag">郭德鴰</span>
-<span class="skill-tag">蘇茲克弗</span>
-<span class="skill-tag">張雪峯</span>
-<span class="skill-tag">塔雷伯</span>
-<span class="skill-tag">霍華馬克斯</span>
-<span class="skill-tag">川普</span>
-<span class="skill-tag">阿格力</span>
-<span class="skill-tag">尼沃</span>
-<span class="skill-tag">MrBeast</span>
-<span class="skill-tag">費曼</span>
-<span class="skill-tag">X大師</span>
-<span class="skill-tag">皓哥</span>
-<span class="skill-tag">張一鳴</span>
-<span class="skill-tag">清流君</span>
-<span class="skill-tag">哲哲</span>
-<span class="skill-tag">葛拉罕</span>
-</div></div>
-
-<div class="skill-category"><div class="skill-cat-title">openclaw-imports (20)</div><div class="skill-tags">
-<span class="skill-tag">agent-browser</span>
-<span class="skill-tag">openclaw-smart-router</span>
-<span class="skill-tag">openclaw-mission-control</span>
-<span class="skill-tag">stock-study</span>
-<span class="skill-tag">openclaw-cron-setup</span>
-<span class="skill-tag">opencli-tool</span>
-<span class="skill-tag">portfolio-risk-manager</span>
-<span class="skill-tag">tw-stock-info</span>
-<span class="skill-tag">bb-browser</span>
-<span class="skill-tag">buffett</span>
-<span class="skill-tag">opencli</span>
-<span class="skill-tag">skill-vetter</span>
-<span class="skill-tag">portfolio-tracker</span>
-<span class="skill-tag">openclaw-backup</span>
-<span class="skill-tag">memory-setup</span>
-<span class="skill-tag">investment-portfolio</span>
-<span class="skill-tag">self-improving-agent</span>
-<span class="skill-tag">openclaw-control-center</span>
-<span class="skill-tag">portfolio-manager</span>
-<span class="skill-tag">openclaw-skill-cron-scheduler</span>
-</div></div>
-
-<div class="skill-category"><div class="skill-cat-title">creative (13)</div><div class="skill-tags">
-<span class="skill-tag">creative-ideation</span>
-<span class="skill-tag">manim-video</span>
-<span class="skill-tag">popular-web-designs</span>
-<span class="skill-tag">excalidraw</span>
-<span class="skill-tag">p5js</span>
-<span class="skill-tag">ascii-video</span>
-<span class="skill-tag">design-md</span>
-<span class="skill-tag">baoyu-infographic</span>
-<span class="skill-tag">pixel-art</span>
-<span class="skill-tag">architecture-diagram</span>
-<span class="skill-tag">baoyu-comic</span>
-<span class="skill-tag">songwriting-and-ai-music</span>
-<span class="skill-tag">ascii-art</span>
-</div></div>
-
-<div class="skill-category"><div class="skill-cat-title">productivity (13)</div><div class="skill-tags">
-<span class="skill-tag">powerpoint</span>
-<span class="skill-tag">quant-analysis-professional-standard</span>
-<span class="skill-tag">notion</span>
-<span class="skill-tag">google-workspace</span>
-<span class="skill-tag">maps</span>
-<span class="skill-tag">qiaomu-anything-to-notebooklm</span>
-<span class="skill-tag">nano-pdf</span>
-<span class="skill-tag">high-performance-secretary</span>
-<span class="skill-tag">linear</span>
-<span class="skill-tag">knowledge-base-management</span>
-<span class="skill-tag">ocr-and-documents</span>
-<span class="skill-tag">project-manager</span>
-<span class="skill-tag">health-management-secretary</span>
-</div></div>
-
-<div class="skill-category"><div class="skill-cat-title">data-science (9)</div><div class="skill-tags">
-<span class="skill-tag">mass-stock-screening-pipeline</span>
-<span class="skill-tag">matplotlib-chinese-font-setup</span>
-<span class="skill-tag">wealth-management-agent</span>
-<span class="skill-tag">pocket-tw-etf-api-reverse-engineering</span>
-<span class="skill-tag">buffett</span>
-<span class="skill-tag">jupyter-live-kernel</span>
-<span class="skill-tag">macro-db-activation</span>
-<span class="skill-tag">wealth-management-shadow-tracking</span>
-<span class="skill-tag">taiwan-stock-analysis</span>
-</div></div>
-
-<div class="skill-category"><div class="skill-cat-title">research (7)</div><div class="skill-tags">
-<span class="skill-tag">polymarket</span>
-<span class="skill-tag">blogwatcher</span>
-<span class="skill-tag">research-paper-writing</span>
-<span class="skill-tag">llm-wiki</span>
-<span class="skill-tag">browser-tabular-extraction</span>
-<span class="skill-tag">arxiv</span>
-<span class="skill-tag">nuwa-skill</span>
-</div></div>
-
-<div class="skill-category"><div class="skill-cat-title">github (6)</div><div class="skill-tags">
-<span class="skill-tag">github-code-review</span>
-<span class="skill-tag">codebase-inspection</span>
-<span class="skill-tag">github-pr-workflow</span>
-<span class="skill-tag">github-repo-management</span>
-<span class="skill-tag">github-issues</span>
-<span class="skill-tag">github-auth</span>
-</div></div>
-
-<div class="skill-category"><div class="skill-cat-title">其他</div><div class="skill-tags">
-<span class="skill-tag">advanced-web-extraction</span>
-<span class="skill-tag">apple (4)</span>
-<span class="skill-tag">autonomous-ai-agents (4)</span>
-<span class="skill-tag">media (5)</span>
-<span class="skill-tag">mcp (2)</span>
-<span class="skill-tag">mlops (2)</span>
-<span class="skill-tag">hermes (1)</span>
-<span class="skill-tag">leisure (1)</span>
-<span class="skill-tag">email (1)</span>
-<span class="skill-tag">gaming (2)</span>
-<span class="skill-tag">social-media (2)</span>
-<span class="skill-tag">smart-home (1)</span>
-<span class="skill-tag">note-taking (1)</span>
-<span class="skill-tag">red-teaming (1)</span>
-<span class="skill-tag">dogfood (1)</span>
-</div></div>
-
+  <div class="filter-row" id="persp-filters">
+    <button class="filter-chip active" data-filter="全部">全部</button>
+    <button class="filter-chip" data-filter="投資">投資</button>
+    <button class="filter-chip" data-filter="AI/科技">AI/科技</button>
+    <button class="filter-chip" data-filter="內容創作">內容創作</button>
+    <button class="filter-chip" data-filter="政治/商業">政治/商業</button>
+    <button class="filter-chip" data-filter="其他">其他</button>
+  </div>
+  <div class="perspective-grid" id="persp-grid"></div>
+  <div class="empty-state hidden" id="persp-empty">
+    <span class="emo">🔍</span>
+    找不到符合的視角
   </div>
 </section>
 
-<!-- WIKI STRUCTURE -->
-<section class="section" id="structure">
+<!-- SKILLS -->
+<section class="section hidden" id="skills-section">
   <div class="section-header">
-    <div class="section-title">知識庫結構</div>
+    <div class="section-title">⚙️ Skills</div>
+    <div class="section-count" id="skill-count">173 個</div>
   </div>
-  <div class="wiki-tree">
-
-<div class="wiki-node open" onclick="toggleNode(this)">
-  <div class="wiki-node-header">
-    <span class="arrow">▶</span>
-    <span class="wiki-node-icon">🧠</span>
-    <span class="wiki-node-label">Wiki Home</span>
-    <span class="wiki-node-count">15 files</span>
-  </div>
-  <div class="wiki-node-body">
-    <div class="wiki-child"><span class="type-badge badge-raw">raw</span> raw/articles/delta-qa-visual-regression-2026.md</div>
-    <div class="wiki-child"><span class="type-badge badge-raw">raw</span> raw/articles/delta-qa-hands-on-2026.md</div>
-    <div class="wiki-child"><span class="type-badge badge-raw">raw</span> raw/articles/ai-playwright-automation-2026.md</div>
-    <div class="wiki-child"><span class="type-badge badge-raw">raw</span> raw/articles/world-cup-picks-spec-2026.md</div>
-    <div class="wiki-child"><span class="type-badge badge-entity">entity</span> entities/playwright.md</div>
-    <div class="wiki-child"><span class="type-badge badge-entity">entity</span> entities/world-cup-picks.md</div>
-    <div class="wiki-child"><span class="type-badge badge-entity">entity</span> entities/picks-prediction-page.md</div>
-    <div class="wiki-child"><span class="type-badge badge-concept">concept</span> concepts/delta-qa.md</div>
-    <div class="wiki-child"><span class="type-badge badge-concept">concept</span> concepts/visual-regression-testing.md</div>
-    <div class="wiki-child"><span class="type-badge badge-concept">concept</span> concepts/test-pyramid.md</div>
-    <div class="wiki-child"><span class="type-badge badge-concept">concept</span> concepts/ai-playwright-automation.md</div>
-    <div class="wiki-child"><span class="type-badge badge-concept">concept</span> concepts/picks-payout-rules.md</div>
-  </div>
-</div>
-
-<div class="wiki-node" onclick="toggleNode(this)">
-  <div class="wiki-node-header">
-    <span class="arrow">▶</span>
-    <span class="wiki-node-icon">⚙️</span>
-    <span class="wiki-node-label">AI / Vibe Coding / 提示詞</span>
-    <span class="wiki-node-count">2 pages</span>
-  </div>
-  <div class="wiki-node-body">
-    <div class="wiki-child"><span class="type-badge badge-entity">entity</span> Playwright — E2E 測試框架</div>
-    <div class="wiki-child"><span class="type-badge badge-concept">concept</span> AI+Playwright 自動化 — 16 個提示詞模板</div>
-  </div>
-</div>
-
-<div class="wiki-node" onclick="toggleNode(this)">
-  <div class="wiki-node-header">
-    <span class="arrow">▶</span>
-    <span class="wiki-node-icon">🧪</span>
-    <span class="wiki-node-label">軟體測試</span>
-    <span class="wiki-node-count">3 pages</span>
-  </div>
-  <div class="wiki-node-body">
-    <div class="wiki-child"><span class="type-badge badge-concept">concept</span> Delta-QA — 視覺回歸測試工具</div>
-    <div class="wiki-child"><span class="type-badge badge-concept">concept</span> 視覺回歸測試 — 像素級截圖比對</div>
-    <div class="wiki-child"><span class="type-badge badge-concept">concept</span> 測試金字塔 — 分層測試策略</div>
-  </div>
-</div>
-
-<div class="wiki-node" onclick="toggleNode(this)">
-  <div class="wiki-node-header">
-    <span class="arrow">▶</span>
-    <span class="wiki-node-icon">⚽</span>
-    <span class="wiki-node-label">產品規格</span>
-    <span class="wiki-node-count">2 pages</span>
-  </div>
-  <div class="wiki-node-body">
-    <div class="wiki-child"><span class="type-badge badge-entity">entity</span> 世界盃競猜活動 (PICKS) — 完整規格</div>
-    <div class="wiki-child"><span class="type-badge badge-concept">concept</span> 派彩與退券規則</div>
-  </div>
-</div>
-
-<div class="wiki-node" onclick="toggleNode(this)">
-  <div class="wiki-node-header">
-    <span class="arrow">▶</span>
-    <span class="wiki-node-icon">📚</span>
-    <span class="wiki-node-label">人物視角 Perspectiv</span>
-    <span class="wiki-node-count">22 個蒸餾人物</span>
-  </div>
-  <div class="wiki-node-body">
-    <div class="wiki-child"><span class="type-badge badge-concept">concept</span> 孫宇晨 · 馬斯克 · 蒙格 · 簡立峰 · 卡帕西 · 賈伯斯 · 郭德鴰 · 蘇茲克弗 · 張雪峯 · 塔雷伯 · 霍華馬克斯 · 川普 · 阿格力 · 尼沃 · MrBeast · 費曼 · X大師 · 皓哥 · 張一鳴 · 清流君 · 哲哲 · 葛拉罕</div>
-  </div>
-</div>
-
-  </div>
-</section>
-
-<!-- LEARNING LOOP -->
-<section class="section" id="loop">
-  <div class="section-header">
-    <div class="section-title">學習迴圈 — Knowledge Flywheel</div>
-  </div>
-  <div class="flow-diagram">
-  <div class="flow-step">
-    <div class="flow-icon" style="background: rgba(200,169,110,0.15);">📥</div>
-    <div class="flow-label">攝入 Ingest</div>
-    <div class="flow-desc">文章 / 訪談 / 訪談 / 規格書 → raw/</div>
-  </div>
-  <div class="flow-arrow">→</div>
-  <div class="flow-step">
-    <div class="flow-icon" style="background: rgba(110,140,200,0.15);">🔬</div>
-    <div class="flow-label">蒸餾 Distill</div>
-    <div class="flow-desc">萃取要點 → 概念頁 / 實體頁</div>
-  </div>
-  <div class="flow-arrow">→</div>
-  <div class="flow-step">
-    <div class="flow-icon" style="background: rgba(155,126,200,0.15);">🔗</div>
-    <div class="flow-label">連結 Link</div>
-    <div class="flow-desc">Wikilinks 交叉引用 → 知識網絡</div>
-  </div>
-  <div class="flow-arrow">→</div>
-  <div class="flow-step">
-    <div class="flow-icon" style="background: rgba(110,184,155,0.15);">💾</div>
-    <div class="flow-label">沉積 Preserve</div>
-    <div class="flow-desc">更新 index + log → SHA256 drift 檢測</div>
-  </div>
-  <div class="flow-arrow">→</div>
-  <div class="flow-step">
-    <div class="flow-icon" style="background: rgba(196,112,112,0.15);">❓</div>
-    <div class="flow-label">查詢 Query</div>
-    <div class="flow-desc">提問 → 跨頁面綜合回答</div>
-  </div>
-  <div class="flow-arrow">→</div>
-  <div class="flow-step">
-    <div class="flow-icon" style="background: rgba(200,169,110,0.15);">🚀</div>
-    <div class="flow-label">迭代 Iterate</div>
-    <div class="flow-desc">新來源 → 修補 / 更新 / 標記矛盾</div>
-  </div>
-</div>
-
-<div style="margin-top: 20px; display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px;">
-  <div class="card" style="padding: 16px;">
-    <div style="font-size: 13px; font-weight: 800; color: var(--accent); margin-bottom: 6px;">📌 Wiki 不等於 RAG</div>
-    <div style="font-size: 12px; color: var(--muted); line-height: 1.7;">RAG 每次從零搜尋。Wiki 知識已沉澱好，查詢時直接推理。長期累積 vs 每次重新發現。</div>
-  </div>
-  <div class="card" style="padding: 16px;">
-    <div style="font-size: 13px; font-weight: 800; color: var(--accent); margin-bottom: 6px;">🔍 矛盾追蹤</div>
-    <div style="font-size: 12px; color: var(--muted); line-height: 1.7;">新資訊與舊內容衝突時 → 明確標記 contested=true → 標明雙方來源與日期 → 交由使用者判斷。</div>
-  </div>
-  <div class="card" style="padding: 16px;">
-    <div style="font-size: 13px; font-weight: 800; color: var(--accent); margin-bottom: 6px;">🧪 Lint 健康檢查</div>
-    <div style="font-size: 12px; color: var(--muted); line-height: 1.7;">定期檢查：孤兒頁面、斷裂連結、過時內容、source drift、標籤taxonomy偏離。保持 wiki 乾淨。</div>
-  </div>
-</div>
-</section>
-
-<!-- QUERY BOX -->
-<section class="section" id="query">
-  <div class="section-header">
-    <div class="section-title">查詢 Wiki 知識庫</div>
-  </div>
-  <div class="query-box">
-    <h3>🔍 問我任何 wiki 裡的知識</h3>
-    <p>輸入問題，我會去 wiki 搜尋並綜合回答。目前涵蓋：Playwright、Delta-QA、AI自動化、世界盃競猜活動。</p>
-    <div class="query-form">
-      <input class="query-input" id="queryInput" type="text" placeholder="例如：Delta-QA 的 Baseline 是什麼？或：世界盃競猜的派彩公式？" />
-      <button class="query-btn" onclick="doQuery()">查詢</button>
-    </div>
-    <div class="example-queries">
-      <span class="example-q" onclick="fillQuery(this)">Delta-QA 7步操作</span>
-      <span class="example-q" onclick="fillQuery(this)">Playwright 定位方式</span>
-      <span class="example-q" onclick="fillQuery(this)">派彩公式</span>
-      <span class="example-q" onclick="fillQuery(this)">Baseline 质量</span>
-      <span class="example-q" onclick="fillQuery(this)">對押限制</span>
-      <span class="example-q" onclick="fillQuery(this)">Prompt Library 分層</span>
-    </div>
-    <div class="query-result" id="queryResult">
-      <div class="result-text" id="resultText"></div>
-      <div class="result-meta" id="resultMeta"></div>
-    </div>
+  <div class="filter-row" id="skill-cat-filters"></div>
+  <div class="skill-grid" id="skill-grid"></div>
+  <div class="empty-state hidden" id="skill-empty">
+    <span class="emo">🔍</span>
+    找不到符合的 Skill
   </div>
 </section>
 
 <!-- FOOTER -->
 <footer>
-  <p>Hermes Wiki · 部署於 GitHub Pages · <a href="https://github.com/terryyehai/terry-wiki">Source</a> · <a href="https://terryyehai.github.io/terry-wiki/">Wiki →</a></p>
+  <a href="https://github.com/terryyehai/terry-wiki-dashboard">GitHub</a>
+  · Hermes Wiki · 自動生成
 </footer>
 
 <script>
-// Toggle wiki tree nodes
-function toggleNode(el) {
-  el.classList.toggle('open');
-}
+// ── DATA ──────────────────────────────────────────────────────────────────────
+const PERSPECTIVES = [{"category": "perspectives", "name": "孫宇晨-perspective", "desc": "孫宇晨（Justin Sun / 孫割）的思維框架與行為邏輯。基於6個維度（著作、深度採訪、表達DNA、他者視角、批評記錄、決策追蹤）的深度調研，蒸餾出6個核心心法、10條操作路徑和完整的表達DNA。", "trigger": "「用孫宇晨視角分析」「Justin Sun 思維」「TRON創辦人」「孫割模式」", "domain": "政治/商業", "tagline": "TRON × 社群營銷 × 爭議即流量"}, {"category": "perspectives", "name": "馬斯克-perspective", "desc": "馬斯克的思維操作系統。基於傳記、播客、推文、法庭證詞、決策記錄和外部批評的深度調研，提煉5個核心心智模型、8條決策啟發式和完整的表達DNA。", "trigger": "「用馬斯克視角分析」「Elon Musk 思維」「第一原理思考」「Musk Mode」", "domain": "AI/科技", "tagline": "第一原理 × 快速迭代 × 殖民火星"}, {"category": "perspectives", "name": "蒙格-perspective", "desc": "查理·蒙格的思維框架與表達方式。基於《窮查理寶典》、伯克希爾/Daily Journal股東會、USC/哈佛演講、訪談記錄、外部批評等50+來源的深度調研，提煉5個核心心智模型、8條決策啟發式和完整的表達DNA。", "trigger": "「用蒙格視角」「蒙格會怎麼看」「蒙格模式」「munger perspective」", "domain": "投資", "tagline": "逆向思考 × 跨學科心智模型"}, {"category": "perspectives", "name": "簡立峰-perspective", "desc": "簡立峰（前Google台灣董事總經理、iKala共同創辦人）的思維框架。基於26分鐘一手訪談錄音《台灣AI大未來》Whisper轉寫，23,370字。核心框架：1:99法則、結構性脆弱、軟硬整合由硬體主導、邊緣AI、海洋思維出海。", "trigger": "「用簡立峰視角分析」", "domain": "AI/科技", "tagline": "Google台灣 × AI產業 × 軟硬整合"}, {"category": "perspectives", "name": "卡帕西-perspective", "desc": "安德烈·卡帕西的思維框架與表達方式。基於20+篇博文、16段深度訪談、100+條X帖子的系統蒸餾，提煉6個核心心智模型、12條認知啟發和完整的表達DNA。", "trigger": "「用卡帕西視角分析」「Andrej Karpathy 思維」「AI研究方向」「Copilot 原理」", "domain": "AI/科技", "tagline": "深度學習 × AI研究方向 × Copilot"}, {"category": "perspectives", "name": "賈伯斯-perspective", "desc": "史蒂夫·賈伯斯(Steve Jobs)的思維框架與表達方式。基於Isaacson授權傳記、Stanford演講、All Things D訪談、內部郵件洩露、NeXT/Apple/Pixar決策記錄的深度調研，提煉6個核心心法、8條產品原則和完整的表達DNA。", "trigger": "「用賈伯斯視角分析」「喬布斯思維」「Jobs Mode」「極簡設計原則」", "domain": "內容創作", "tagline": "極簡主義 × 科技 × 設計直覺"}, {"category": "perspectives", "name": "郭德鴰-perspective", "desc": "郭德鴰（中國相聲演師、德雲社創辦人）的思維框架與表達方式。基於20支YouTube影片標題、公開訪談、著作及表演風格分析的深度調研，提煉5個核心心法、8條表達技巧和完整的相聲美學DNA。", "trigger": "「用郭德鴰視角分析」「相聲思維」「幽默表達」", "domain": "內容創作", "tagline": "相聲 × 語言藝術 × 幽默哲學"}, {"category": "perspectives", "name": "蘇茲克弗-perspective", "desc": "伊爾亞·蘇茲克弗的思維框架與表達方式。基於12段一手對話、9篇學術論文、10小時宣誓證詞、27篇推薦閱讀清單和10+位同事/批評者訪談的深度調研，提煉6個核心心法、9條研究原則和完整的前沿AI研究者DNA。", "trigger": "「用蘇茲克弗視角分析」「Ilya Sutskever 思維」「AI安全研究」「機器學習原理」", "domain": "AI/科技", "tagline": "機器學習 × AI安全 × Ilya視角"}, {"category": "perspectives", "name": "張雪峰-perspective", "desc": "張雪峰的思維框架與表達方式。基於5本著作、15+篇權威媒體深度採訪、30+條一手語錄、11個關鍵決策記錄和完整人格分析模型。核心框架：階級流動視角、專業性價比邏輯、家長主義共情結構、灰色地帶直視勇氣。", "trigger": "「用張雪峰視角分析」「高考志願選擇」「專業前景判斷」「張雪峰模式」", "domain": "政治/商業", "tagline": "高考志願 × 專業選擇 × 階級視角"}, {"category": "perspectives", "name": "塔雷伯-perspective", "desc": "塔雷伯(Nassim Nicholas Taleb)的思維框架與表達方式。基於40+個來源的深度調研，提煉6個核心心智模型、10條決策啟發式和完整的表達DNA。", "trigger": "「用塔雷伯視角分析」「黑天鵝思維」「反脆弱」「Taleb Mode」", "domain": "政治/商業", "tagline": "黑天鵝 × 反脆弱 × 複雜系統"}, {"category": "perspectives", "name": "霍華馬克斯-perspective", "desc": "霍華·馬克斯（Howard Marks）的思維框架與表達方式。基於2段深度訪談錄音轉寫（UCLA演講+投資原理訪談）、18篇Oaktree原創备忘录、2本著作的系統調研，提煉6個核心心法、9條風險紀律和完整的表達DNA。", "trigger": "「用霍華馬克斯視角分析」「Howard Marks思維」「風險管理」「第二層思維」", "domain": "投資", "tagline": "風險紀律 × 第二層思維"}, {"category": "perspectives", "name": "川普-perspective", "desc": "唐納德·川普（Donald Trump）的思維框架與行為邏輯。基於著作、長訪談、辯論、心理分析、前幕僚回憶錄、重大決策記錄共50+來源的深度調研，提煉6個核心心智模型、10條交易啟發式和完整的表達DNA。", "trigger": "「用川普視角分析」「Trump Thinking」「談判心理」「交易藝術」", "domain": "政治/商業", "tagline": "交易藝術 × 談判心理 × 媒體操作"}, {"category": "perspectives", "name": "阿格力-perspective", "desc": "阿格力（AGREE）的思維框架與表達方式。基於YouTube頻道字幕的深度調研，提煉5個核心心智模型、8條決策啟發式和完整的表達DNA。", "trigger": "「用阿格力視角分析」「台股價值投資」「技術分析」「產業研究」", "domain": "政治/商業", "tagline": "台股價值投資 × 技術分析 × 產業研究"}, {"category": "perspectives", "name": "尼沃-perspective", "desc": "尼沃·拉維坎特的思維操作系統。基於著作、播客、推文、決策記錄和外部批評的深度調研，提煉5個核心心智模型、8條決策啟發式和完整的表達DNA。", "trigger": "「用尼沃視角分析」「Naval Ravikant 思維」「創業智慧」「判斷力」", "domain": "AI/科技", "tagline": "創業智慧 × 判斷力 × 決策框架"}, {"category": "perspectives", "name": "mrbeast-perspective", "desc": "MrBeast（Jimmy Donaldson）的內容創造操作系統。基於泄露的36頁內部培訓手冊、6個深度播客、10+小時影片分析、內部文件洩露和Expedia/Fidelity採訪的系統調研，提煉7個核心心法、9條流量公式和完整的內容創作DNA。", "trigger": "「用MrBeast視角分析」「病毒傳播」「流量變現」「內容放大公式」", "domain": "內容創作", "tagline": "病毒傳播 × 流量變現 × 免費商業"}, {"category": "perspectives", "name": "費曼-perspective", "desc": "理查德·費曼的思維框架與表達方式。基於40+個一手來源的深度調研，提煉5個核心心智模型、8條決策啟發式和完整的表達DNA。", "trigger": "「用費曼視角分析」「Feynman 思維」「物理直覺」「簡化複雜」", "domain": "AI/科技", "tagline": "物理直覺 × 好奇心 × 簡化複雜"}, {"category": "perspectives", "name": "x-mastery-mentor", "desc": "$10K/hr級X/Twitter運營導師。基於Nicolas Cole、Dickie Bush、Sahil Bloom等千萬粉號主的方法論蒸餾。核心：鉤子公式、SHEET框架、30-60-90節奏、爭議即參與。", "trigger": "「用X視角分析」「Twitter成長策略」「個人品牌」「病毒內容」", "domain": "內容創作", "tagline": "X/Twitter × 個人品牌 × 病毒式成長"}, {"category": "perspectives", "name": "皓哥-perspective", "desc": "游庭皓（皓哥）的思維框架與表達方式蒸餾。基於頻道簡介、77支影片標題分類分析及內容風格觀察。觸發時機：分析台灣總經議題、景氣判斷、AI供應鏈動向、總統大選經濟議題。", "trigger": "「用皓哥視角分析」「台灣總經判斷」「AI供應鏈分析」「景氣燈號」", "domain": "投資", "tagline": "台灣總經 × AI供應鏈 × 宏觀視角"}, {"category": "perspectives", "name": "張一鳴-perspective", "desc": "張一鳴（字節跳動/TikTok創始人）的思維框架與表達方式。基於6個維度（著作、深度訪談、表達DNA、他者視角、批評記錄、決策追蹤）的深度調研，提煉6個核心心法、10條決策邏輯和完整的表達DNA。", "trigger": "「用張一鳴視角分析」「位元組跳動思維」「推薦算法」「延遲滿足」", "domain": "AI/科技", "tagline": "位元組跳動 × 推薦算法 × 延遲滿足"}, {"category": "perspectives", "name": "清流君-perspective", "desc": "清流君的思維框架與表達方式。基於YouTube頻道《清流君》（近2000萬觀看）、專欄文章、訪談片段的深度調研，提煉6個核心心法、8條投資原則和完整的表達DNA。", "trigger": "「用清流君視角分析」「美股分析」「財報拆解」「免費現金流」", "domain": "投資", "tagline": "美股分析 × 財報拆解 × 免費現金流"}, {"category": "perspectives", "name": "哲哲-perspective", "desc": "郭哲榮（哲哲）的思維框架與表達方式。基於8支YouTube字幕（共10.9萬字）的深度調研，提煉5個核心心智模型、8條決策啟發式和完整的表達DNA。", "trigger": "「用哲哲視角分析」「台股總經」「景氣燈號判斷」「結構性趨勢」", "domain": "投資", "tagline": "台股總經 × 景氣燈號 × 結構性趨勢"}, {"category": "perspectives", "name": "葛拉罕-perspective", "desc": "保羅·葛拉罕的思維框架與表達方式。基於200+篇essays、12個播客/訪談、Twitter/X分析、7位核心圈內人訪談的系統蒸餾。核心框架：創業想法前置、以太坊評估、智慧靠邊界、創業想法與金錢關係、VC和孵化器角色。", "trigger": "「用葛拉罕視角分析」「Paul Graham思維」「YC」「創業建議」", "domain": "投資", "tagline": "價值投資 × 低買高賣基本原則"}];
 
-// Fill example query
-function fillQuery(el) {
-  document.getElementById('queryInput').value = el.textContent;
-  el.style.color = 'var(--accent)';
-  setTimeout(() => el.style.color = '', 300);
-}
+const SKILLS = [{"category": "wealth-management", "name": "technical-price-alert-system", "desc": "技術價格追蹤系統 - 根據技術支撐/壓力位計算買點/賣點提醒，計算勝率評分", "trigger": "需要對觀察名單設定價格提醒、計算勝率"}, {"category": "wealth-management", "name": "stock-name-mapping-maintenance", "desc": "Maintain and optimize stock name mappings for quantitative analysis systems", "trigger": "Stock analysis coverage is incomplete, names don't match"}, {"category": "wealth-management", "name": "advanced-stock-analysis-with-buffett-8-questions", "desc": "高級股票分析系統 - 整合技術指標、估值分析、競爭力評估、趨勢分析與巴菲特八題框架", "trigger": "觀察名單的深度分析，生成包含合理買賣價格的報告"}, {"category": "wealth-management", "name": "taiwan-stock-optimization", "desc": "Complete workflow for optimizing Taiwan stock analysis coverage", "trigger": "Stock analysis coverage incomplete"}, {"category": "wealth-management", "name": "quantitative-trade-tracking-sop", "desc": "Standard Operating Procedure for ensuring quantitative trade tracking accuracy", "trigger": "確保交易記錄與部位同步"}, {"category": "wealth-management", "name": "geopolitical-event-analysis", "desc": "地緣政治事件 × 宏觀數據 × 投資組合佈局分析", "trigger": "用戶丟來一篇新聞連結，要求說說對投資的影響"}, {"category": "wealth-management", "name": "trading-agents-integration", "desc": "整合 TradingAgents 多智能體辯論框架 + OpenBB 數據層 + Terry 的 22 個 Perspective", "trigger": "多智能體股票辯論、TradingAgents 框架"}, {"category": "wealth-management", "name": "daily-watchlist-quantitative-analysis", "desc": "每日觀察名單量化分析系統 - 自動分析Terry的197檔觀察股票，生成技術指標和交易信號報告", "trigger": "每日觀察名單量化分析、技術指標"}, {"category": "wealth-management", "name": "quant-portfolio-analysis", "desc": "High-standard quantitative analysis workflow for investment portfolio", "trigger": "投資組合量化分析"}, {"category": "wealth-management", "name": "portfolio-strategy", "desc": "Current agreed-upon investment strategy and allocation targets", "trigger": "投資策略確認、資產配置"}, {"category": "wealth-management", "name": "wealth-management-committee-review", "desc": "A high-conviction asset vetting framework that simulates a professional investment committee", "trigger": "模擬專業投資委員會審查"}, {"category": "wealth-management", "name": "active-etf-00981a-tracker", "desc": "主動統一台股增長（00981A）持股追蹤系統", "trigger": "00981A 追蹤"}, {"category": "wealth-management", "name": "taiwan-stock-data-recovery", "desc": "Workflow for identifying and filling missing daily price data", "trigger": "填補缺失的歷史股價資料"}, {"category": "wealth-management", "name": "stock-recommendation-scoring-system", "desc": "股票推薦評分系統 - 綜合技術面、基本面、安全邊際分析，生成最推薦入手的股票排名", "trigger": "股票推薦評分"}, {"category": "wealth-management", "name": "beginner-friendly-stock-analysis-report", "desc": "Generate beginner-friendly stock buy/sell recommendation reports", "trigger": "新手友善股票分析報告"}, {"category": "wealth-management", "name": "stock-mapping-and-data-collection-troubleshooting", "desc": "Systematic workflow for diagnosing and fixing stock mapping and data issues", "trigger": "股票映射錯誤修復"}, {"category": "wealth-management", "name": "mcp-openbb-integration", "desc": "把 OpenBB 轉為 Hermes Agent 的 MCP 工具", "trigger": "OpenBB 整合查詢台積電財報"}, {"category": "wealth-management", "name": "surgical-portfolio-rotation", "desc": "A high-conviction framework for auditing a legacy investment portfolio", "trigger": "審計並重整 legacy 投資組合"}, {"category": "wealth-management", "name": "stock-name-mapping-debug", "desc": "股票名稱映射調試與修復標準流程", "trigger": "股票分析覆蓋率異常低、股票名稱無法匹配"}, {"category": "wealth-management", "name": "taiwan-stock-data-maintenance", "desc": "Workflow for identifying and backfilling missing daily trad", "trigger": "daily trading data maintenance"}, {"category": "wealth-management", "name": "nuwa-mind-distillation", "desc": "思維蒸餾系統——輸入任何人的名字/主題，自動深度調研 → 思維框架 → 生成可運行的「人物視角Skill」", "trigger": "蒸餾新人物視角、思維框架"}, {"category": "wealth-management", "name": "etf-phased-entry-strategy", "desc": "ETF/個股分批進場策略系統", "trigger": "ETF分批進場、均線定投"}, {"category": "devops", "name": "hermes-onboarding-audit", "desc": "Workflow for auditing a Hermes Agent installation", "trigger": "Hermes安裝審計"}, {"category": "devops", "name": "webhook-subscriptions", "desc": "Create and manage webhook subscriptions", "trigger": "webhook 管理"}, {"category": "devops", "name": "js-eyes-deployment", "desc": "完整部署 js-eyes 瀏覽器自動化堆棧至 Hermes Agent", "trigger": "js-eyes 部署"}, {"category": "devops", "name": "minimax-api-setup", "desc": "Troubleshooting and configuring MiniMax API authentication", "trigger": "MiniMax API 設定問題"}, {"category": "devops", "name": "docker-deployment-timeouts", "desc": "Workflow for deploying large Docker images", "trigger": "Docker 部署超時"}, {"category": "devops", "name": "fix-cron-telegram-delivery", "desc": "Resolve invalid literal for int() delivery errors in cron", "trigger": "cron job 失敗、Telegram 推送錯誤"}, {"category": "devops", "name": "fix-model-visibility-and-minimax", "desc": "Resolve issues where specific models are missing from the UI", "trigger": "模型沒有出現在設定中"}, {"category": "devops", "name": "hermes-cron-audit", "desc": "審計並整合 Hermes Agent 的 cron job", "trigger": "cron job 審計、雙軌架構整合"}, {"category": "devops", "name": "hermes-js-eyes", "desc": "為 Hermes Agent 提供的瀏覽器自動化控制方案", "trigger": "瀏覽器自動化控制"}, {"category": "devops", "name": "hermes-memory-improvement", "desc": "Evaluate and implement persistent memory solutions for Hermes Agent", "trigger": "Hermes 記憶力增強"}, {"category": "devops", "name": "restart-hermes-agent", "desc": "Professional workflow for restarting the Hermes Agent gateway", "trigger": "重啟 Hermes Agent"}, {"category": "devops", "name": "openclaw-recovery", "desc": "Professional workflow for diagnosing and recovering the OpenClaw system", "trigger": "OpenClaw 故障排除"}, {"category": "devops", "name": "openclaw-to-hermes-migration", "desc": "Workflow for migrating from OpenClaw to Hermes Agent", "trigger": "OpenClaw 遷移到 Hermes"}, {"category": "devops", "name": "service-recovery-debug", "desc": "Professional workflow for diagnosing and fixing zombie processes", "trigger": "殭屍进程、服務恢復"}, {"category": "devops", "name": "nvidia-api-config-debug", "desc": "除錯 Hermes Agent NVIDIA API 設定問題", "trigger": "NVIDIA API 問題"}, {"category": "devops", "name": "env-file-display-pitfall", "desc": "發現終端對 .env 檔案內過長的金鑰值會做視覺截斷", "trigger": ".env 檔案問題"}, {"category": "devops", "name": "cron-delivery-fix", "desc": "Troubleshooting and fixing delivery failures for cron jobs", "trigger": "cron job 推送失敗"}, {"category": "devops", "name": "hermes-model-audit", "desc": "審核並清理 Hermes Agent /model 選單中無效模型", "trigger": "模型清理審計"}, {"category": "devops", "name": "hermes-model-optimization-config", "desc": "Configuration for Primary/Auxiliary model split", "trigger": "模型優化設定"}, {"category": "devops", "name": "minimax-cron-troubleshooting", "desc": "Troubleshooting guide for MiniMax API authentication failures in cron", "trigger": "MiniMax cron 失敗"}, {"category": "devops", "name": "diagnose-model-failures", "desc": "Professional workflow for diagnosing why LLM models are not responding", "trigger": "模型失敗診斷"}, {"category": "devops", "name": "hermes-startup-memory-bootstrap", "desc": "Hermes Agent startup sequence that prevents memory gap", "trigger": "Hermes 啟動記憶初始化"}, {"category": "devops", "name": "js-eyes", "desc": "安裝、配置、驗證及排除 JS Eyes 瀏覽器自動化堆棧", "trigger": "JS Eyes 安裝"}, {"category": "devops", "name": "api-quota-optimization", "desc": "Strategy for managing API rate limits", "trigger": "API 配額優化"}, {"category": "devops", "name": "model-picker-maintenance", "desc": "Debugging and updating the model selection lists", "trigger": "模型選單問題"}, {"category": "devops", "name": "minimax-official-auth-fix", "desc": "Resolve login fail with MiniMax API secret key", "trigger": "MiniMax 登入失敗"}, {"category": "data-science", "name": "mass-stock-screening-pipeline", "desc": "A multi-stage pipeline for screening large universes of stocks", "trigger": "大規模股票篩選"}, {"category": "data-science", "name": "matplotlib-chinese-font-setup", "desc": "配置 matplotlib 使用中文字體", "trigger": "matplotlib 中文字體"}, {"category": "data-science", "name": "wealth-management-agent", "desc": "Professional framework for stock market analysis", "trigger": "財富管理分析"}, {"category": "data-science", "name": "buffett", "desc": "A comprehensive investment thinking system embodying Warren Buffett's approach", "trigger": "巴菲特價值投資"}, {"category": "data-science", "name": "jupyter-live-kernel", "desc": "Use a live Jupyter kernel for stateful, iterative Python", "trigger": "Jupyter 互動分析"}, {"category": "data-science", "name": "macro-db-activation", "desc": "macro.db 活化標準流程", "trigger": "macro.db 數據量過少"}, {"category": "data-science", "name": "pocket-tw-etf-api-reverse-engineering", "desc": "破解口袋證券 Pocket.tw ETF 頁面的明碼 API", "trigger": "口袋證券 ETF 資料抓取"}, {"category": "data-science", "name": "taiwan-stock-analysis", "desc": "Professional workflow for screening and analyzing companies on TWSE", "trigger": "台股篩選分析"}, {"category": "creative", "name": "creative-ideation", "desc": "Generate project ideas through creative constraints", "trigger": "創意發想"}, {"category": "creative", "name": "manim-video", "desc": "Production pipeline for mathematical and technical animation", "trigger": "數學動畫製作"}, {"category": "creative", "name": "popular-web-designs", "desc": "54 production-quality design systems extracted from real websites", "trigger": "網頁設計參考"}, {"category": "creative", "name": "pixel-art", "desc": "Convert images into retro pixel art", "trigger": "像素藝術"}, {"category": "creative", "name": "ascii-art", "desc": "Generate ASCII art using pyfiglet", "trigger": "ASCII 藝術"}, {"category": "creative", "name": "excalidraw", "desc": "Create hand-drawn style diagrams using Excalidraw JSON", "trigger": "手繪風格圖表"}, {"category": "creative", "name": "songwriting-and-ai-music", "desc": "Songwriting craft, AI music generation prompts (Suno focus)", "trigger": "AI 音樂創作"}, {"category": "creative", "name": "architecture-diagram", "desc": "Generate dark-themed SVG diagrams of software systems", "trigger": "軟體架構圖"}, {"category": "creative", "name": "p5js", "desc": "Production pipeline for interactive and generative visual", "trigger": "互動視覺生成"}, {"category": "creative", "name": "baoyu-comic", "desc": "Knowledge comic creator supporting multiple art styles", "trigger": "知識漫畫創作"}, {"category": "creative", "name": "baoyu-infographic", "desc": "Generate professional infographics with 21 layout types", "trigger": "資訊圖表"}, {"category": "creative", "name": "design-md", "desc": "Author, validate, diff, and export DESIGN.md files", "trigger": "DESIGN.md 編寫"}, {"category": "autonomous-ai-agents", "name": "codex", "desc": "Delegate coding tasks to OpenAI Codex CLI agent", "trigger": "Codex 代碼任務"}, {"category": "autonomous-ai-agents", "name": "hermes-agent", "desc": "Complete guide to using and extending Hermes Agent", "trigger": "Hermes Agent 使用指南"}, {"category": "autonomous-ai-agents", "name": "claude-code", "desc": "Delegate coding tasks to Claude Code (Anthropic's CLI agent)", "trigger": "Claude Code 任務"}, {"category": "autonomous-ai-agents", "name": "opencode", "desc": "Delegate coding tasks to OpenCode CLI agent", "trigger": "OpenCode 任務"}, {"category": "github", "name": "github-code-review", "desc": "Review code changes by analyzing git diffs", "trigger": "GitHub 代碼審查"}, {"category": "github", "name": "codebase-inspection", "desc": "Inspect and analyze codebases using pygount for LOC counting", "trigger": "程式碼庫分析"}, {"category": "github", "name": "github-pr-workflow", "desc": "Full pull request lifecycle — create branches, commit changes", "trigger": "GitHub PR 工作流"}, {"category": "github", "name": "github-repo-management", "desc": "Clone, create, fork, configure, and manage GitHub repos", "trigger": "GitHub 倉庫管理"}, {"category": "github", "name": "github-issues", "desc": "Create, manage, triage, and close GitHub issues", "trigger": "GitHub Issues"}, {"category": "github", "name": "github-auth", "desc": "Set up GitHub authentication for the agent using git", "trigger": "GitHub 認證設定"}, {"category": "media", "name": "spotify", "desc": "Control Spotify — play music, search the catalog", "trigger": "Spotify 控制"}, {"category": "media", "name": "youtube-content", "desc": "Fetch YouTube video transcripts", "trigger": "YouTube 字幕擷取"}, {"category": "media", "name": "heartmula", "desc": "Set up and run HeartMuLa, the open-source music generation", "trigger": "AI 音樂生成"}, {"category": "media", "name": "gif-search", "desc": "Search and download GIF from Tenor using curl", "trigger": "GIF 搜尋"}, {"category": "media", "name": "songsee", "desc": "Generate spectrograms and audio feature visualizations", "trigger": "音訊視覺化"}, {"category": "mlops", "name": "vector-databases", "desc": "Vector databases for AI applications", "trigger": "向量資料庫"}, {"category": "mlops", "name": "hermes-model-optimization", "desc": "Implementing a Primary/Auxiliary model split in Hermes Agent", "trigger": "模型優化分割"}, {"category": "mlops", "name": "huggingface-hub", "desc": "Hugging Face Hub CLI (hf) — search, download, and upload", "trigger": "HuggingFace Hub"}, {"category": "mlops", "name": "llama-cpp", "desc": "llama.cpp local GGUF inference + HF Hub model discovery", "trigger": "llama.cpp 本地推論"}, {"category": "mlops", "name": "gguf-quantization", "desc": "GGUF format and llama.cpp quantization for efficient CPU inference", "trigger": "GGUF 量化"}, {"category": "mlops", "name": "serving-llms-vllm", "desc": "Serves LLMs with high throughput using vLLM's PagedAttention", "trigger": "vLLM 服務"}, {"category": "mlops", "name": "obliteratus", "desc": "Remove refusal behaviors from open-weight LLMs using OBLITERATUS", "trigger": "LLM 去除拒絕行為"}, {"category": "mlops", "name": "outlines", "desc": "Guarantee valid JSON/XML/code structure during generation", "trigger": "結構化輸出"}, {"category": "mlops", "name": "fine-tuning-with-trl", "desc": "Fine-tune LLMs using reinforcement learning with TRL", "trigger": "TRL 微調"}, {"category": "mlops", "name": "peft-fine-tuning", "desc": "Parameter-efficient fine-tuning for LLMs using LoRA, QLoRA", "trigger": "PEFT 微調"}, {"category": "mlops", "name": "grpo-rl-training", "desc": "Expert guidance for GRPO/RL fine-tuning with TRL for reasoning models", "trigger": "GRPO 強化學習訓練"}, {"category": "mlops", "name": "pytorch-fsdp", "desc": "Expert guidance for Fully Sharded Data Parallel training", "trigger": "PyTorch FSDP 訓練"}, {"category": "mlops", "name": "unsloth", "desc": "Expert guidance for fast fine-tuning with Unsloth - 2-5x speedup", "trigger": "Unsloth 快速微調"}, {"category": "mlops", "name": "evaluating-llms-harness", "desc": "Evaluates LLMs across 60+ academic benchmarks", "trigger": "LLM 評測"}, {"category": "mlops", "name": "dspy", "desc": "Build complex AI systems with declarative programming", "trigger": "DSPy 程式化 AI"}, {"category": "mlops", "name": "segment-anything-model", "desc": "Foundation model for image segmentation with zero-shot", "trigger": "SAM 圖像分割"}, {"category": "mlops", "name": "clip", "desc": "OpenAI's model connecting vision and language", "trigger": "CLIP 視覺語言"}, {"category": "mlops", "name": "stable-diffusion-image-generation", "desc": "Text-to-image generation with Stable Diffusion", "trigger": "SD 圖像生成"}, {"category": "mlops", "name": "whisper", "desc": "OpenAI's general-purpose speech recognition model", "trigger": "Whisper 語音辨識"}, {"category": "mlops", "name": "audiocraft-audio-generation", "desc": "PyTorch library for audio generation including text-to-music", "trigger": "AudioCraft 音頻生成"}, {"category": "research", "name": "polymarket", "desc": "Query Polymarket prediction market data", "trigger": "Polymarket 預測市場"}, {"category": "research", "name": "blogwatcher", "desc": "Monitor blogs and RSS/Atom feeds for updates", "trigger": "RSS 部落格監控"}, {"category": "research", "name": "research-paper-writing", "desc": "End-to-end pipeline for writing ML/AI research papers", "trigger": "研究論文寫作"}, {"category": "research", "name": "browser-tabular-extraction", "desc": "Technique for extracting large amounts of tabular data from browsers", "trigger": "大量表格資料抓取"}, {"category": "research", "name": "huashu-nuwa", "desc": "女媧造人：輸入人名/主題/甚至模糊需求，自動深度調研", "trigger": "深度調研"}, {"category": "research", "name": "arxiv", "desc": "Search and retrieve academic papers from arXiv", "trigger": "arXiv 論文搜尋"}, {"category": "research", "name": "llm-wiki", "desc": "Karpathy's LLM Wiki — build and maintain a persistent, in-context LLM wiki", "trigger": "LLM Wiki 建構"}, {"category": "productivity", "name": "powerpoint", "desc": "Use this skill any time a .pptx file is involved", "trigger": "PowerPoint 簡報"}, {"category": "productivity", "name": "quant-analysis-professional-standard", "desc": "A strict, high-end quantitative analysis and reporting framework", "trigger": "專業量化分析標準"}, {"category": "productivity", "name": "notion", "desc": "Notion API for creating and managing pages", "trigger": "Notion 整合"}, {"category": "productivity", "name": "google-workspace", "desc": "Gmail, Calendar, Drive, Contacts, Sheets, and Docs integration", "trigger": "Google Workspace"}, {"category": "productivity", "name": "health-management-secretary", "desc": "Professional framework for managing health and wellness", "trigger": "健康管理"}, {"category": "productivity", "name": "high-performance-secretary", "desc": "A comprehensive framework for acting as a high-end Professional Secretary", "trigger": "高效私人助理"}, {"category": "productivity", "name": "linear", "desc": "Manage Linear issues, projects, and teams via GraphQL", "trigger": "Linear 專案管理"}, {"category": "productivity", "name": "maps", "desc": "Location intelligence — geocode a place, reverse-geocode", "trigger": "地圖查詢"}, {"category": "productivity", "name": "nano-pdf", "desc": "Edit PDFs with natural-language instructions", "trigger": "PDF 編輯"}, {"category": "productivity", "name": "ocr-and-documents", "desc": "Extract text from PDFs and scanned documents", "trigger": "OCR 文件處理"}, {"category": "productivity", "name": "project-manager", "desc": "Structured project and task tracking system", "trigger": "專案管理"}, {"category": "productivity", "name": "qiaomu-anything-to-notebooklm", "desc": "多源內容智能處理器：支持微信公眾號、網頁、YouTube", "trigger": "多源內容處理"}, {"category": "productivity", "name": "knowledge-base-management", "desc": "Manage a structured local knowledge base for investment research", "trigger": "知識庫管理"}, {"category": "software-development", "name": "professional-self-audit", "desc": "A multi-step verification protocol for delivering high-quality code", "trigger": "程式碼自我審查"}, {"category": "software-development", "name": "writing-plans", "desc": "Use when you have a spec or requirements for a multi-step implementation", "trigger": "軟體開發計劃"}, {"category": "software-development", "name": "subagent-driven-development", "desc": "Use when executing implementation plans with independent subagents", "trigger": "子代理驅動開發"}, {"category": "software-development", "name": "systematic-debugging", "desc": "Use when encountering any bug, test failure, or unexpected behavior", "trigger": "系統性錯誤排除"}, {"category": "software-development", "name": "test-driven-development", "desc": "Use when implementing any feature or bugfix, before writing code", "trigger": "測試驅動開發"}, {"category": "software-development", "name": "plan", "desc": "Plan mode for Hermes — inspect context, write a plan", "trigger": "Hermes 計劃模式"}, {"category": "software-development", "name": "requesting-code-review", "desc": "Pre-commit verification pipeline — static security scan", "trigger": "程式碼審查請求"}, {"category": "note-taking", "name": "obsidian", "desc": "Read, search, and create notes in the Obsidian vault", "trigger": "Obsidian 筆記"}, {"category": "openclaw-imports", "name": "agent-browser", "desc": "Browser automation CLI for AI agents", "trigger": "AI 瀏覽器自動化"}, {"category": "openclaw-imports", "name": "openclaw-smart-router", "desc": "Smart router for OpenClaw", "trigger": "OpenClaw 智慧路由"}, {"category": "openclaw-imports", "name": "openclaw-mission-control", "desc": "macOS-native web dashboard for monitoring and controlling OpenClaw", "trigger": "OpenClaw 任務控制"}, {"category": "openclaw-imports", "name": "buffett", "desc": "Activates Warren Buffett's complete investment thinking system", "trigger": "巴菲特投資系統"}, {"category": "openclaw-imports", "name": "cron-scheduler", "desc": "Manage cron jobs on macOS/Linux", "trigger": "排程任務管理"}, {"category": "openclaw-imports", "name": "cron-setup", "desc": "OpenClaw Gateway 内置定時任務調度器", "trigger": "定時任務設定"}, {"category": "openclaw-imports", "name": "investment-portfolio", "desc": "Track investments with buy/sell records, allocation chart", "trigger": "投資組合追蹤"}, {"category": "openclaw-imports", "name": "memory-setup", "desc": "Configure and validate OpenClaw memory recall", "trigger": "記憶設定"}, {"category": "openclaw-imports", "name": "portfolio-manager", "desc": "Comprehensive portfolio analysis using Alpaca MCP Server", "trigger": "Alpaca 組合分析"}, {"category": "openclaw-imports", "name": "portfolio-risk-manager", "desc": "建立投資紀律 mini IPS + 部位規模管理", "trigger": "組合風險管理"}, {"category": "openclaw-imports", "name": "portfolio-tracker", "desc": "Automates live portfolio tracking and analysis", "trigger": "即時組合追蹤"}, {"category": "openclaw-imports", "name": "self-improvement", "desc": "Captures learnings, errors, and corrections", "trigger": "自我改進"}, {"category": "openclaw-imports", "name": "skill-vetter", "desc": "Security-first skill vetting for AI agents", "trigger": "Skill 安全審查"}, {"category": "openclaw-imports", "name": "smart-router", "desc": "Smart router functionality", "trigger": "智慧路由"}, {"category": "openclaw-imports", "name": "stock_study", "desc": "Senior equity research analysis for single tickers", "trigger": "個股資深分析"}, {"category": "openclaw-imports", "name": "tw-stock-info", "desc": "Taiwan stock info using Fugle or FinMind APIs", "trigger": "台股資訊查詢"}, {"category": "openclaw-imports", "name": "opencli", "desc": "Use OpenCLI to get data from various websites and desktop apps", "trigger": "OpenCLI 資料獲取"}, {"category": "mcp", "name": "mcporter", "desc": "Use the mcporter CLI to list, configure, auth, and call MCP servers", "trigger": "MCP 伺服器"}, {"category": "mcp", "name": "native-mcp", "desc": "Built-in MCP (Model Context Protocol) client", "trigger": "原生 MCP 客戶端"}, {"category": "social-media", "name": "xitter", "desc": "Interact with X/Twitter via the x-cli terminal client", "trigger": "X/Twitter CLI"}, {"category": "social-media", "name": "xurl", "desc": "Interact with X/Twitter via xurl, the official X API CLI", "trigger": "X URL 互動"}, {"category": "smart-home", "name": "openhue", "desc": "Control Philips Hue lights, rooms, and scenes", "trigger": "Philips Hue 控制"}, {"category": "dogfood", "name": "dogfood", "desc": "Systematic exploratory QA testing of web applications", "trigger": "系統探索測試"}, {"category": "dogfood", "name": "templates", "desc": "Templates for dogfood testing", "trigger": "測試模板"}, {"category": "email", "name": "himalaya", "desc": "CLI to manage emails via IMAP/SMTP", "trigger": "郵件管理"}, {"category": "gaming", "name": "minecraft-modpack-server", "desc": "Set up a modded Minecraft server from CurseForge", "trigger": "Minecraft 模組伺服器"}, {"category": "gaming", "name": "pokemon-player", "desc": "Play Pokemon games autonomously via headless emulation", "trigger": "神奇寶貝自動遊玩"}, {"category": "leisure", "name": "find-nearby", "desc": "Find nearby places (restaurants, cafes, bars, pharmacies)", "trigger": "附近地點搜尋"}, {"category": "hermes", "name": "hermes-four-layer-memory", "desc": "Hermes Agent 四層記憶架構详解及记忆力增强行动清单", "trigger": "四層記憶架構"}, {"category": "red-teaming", "name": "godmode", "desc": "Jailbreak API-served LLMs using G0DM0D3 techniques", "trigger": "LLM 越獄測試"}, {"category": "advanced-web-extraction", "name": "scripts", "desc": "Advanced web extraction scripts", "trigger": "高級網頁抓取"}, {"category": "taiwan-quant-factors", "name": "scripts", "desc": "Taiwan stock quant factor scripts", "trigger": "台股量化因子腳本"}, {"category": "taiwan-portfolio-optimizer", "name": "scripts", "desc": "Portfolio optimization scripts", "trigger": "組合優化腳本"}, {"category": "taiwan-buffett-agent", "name": "references", "desc": "Taiwan Buffett agent references", "trigger": "台股巴菲特腳本"}, {"category": "taiwan-portfolio-weekly-evaluation", "name": "taiwan-portfolio-weekly-evaluation", "desc": "台股投資組合每週深度健檢技能", "trigger": "每週組合健檢"}, {"category": "taiwan-stock-data-hermes", "name": "taiwan-stock-data-hermes", "desc": "使用瀏覽器自動化從 Yahoo Finance 台灣取得台股個股、ETF 即時報價", "trigger": "Yahoo Finance 台股報價"}, {"category": "wealth-management-agent", "name": "wealth-management-agent", "desc": "財富管理Agent旗艦系統", "trigger": "財富管理旗艦系統"}, {"category": "taiwan-debate-orchestrator", "name": "taiwan-debate-orchestrator", "desc": "Terry 專屬多空辯論系統", "trigger": "多空辯論系統"}, {"category": ".hub", "name": "index-cache", "desc": "Index cache for skill hub", "trigger": ""}, {"category": ".hub", "name": "quarantine", "desc": "Skill quarantine management", "trigger": ""}];
 
-// Query simulation (client-side wiki search)
-const WIKI_DATA = {
-  "delta-qa 7步操作": "**Delta-QA 7 步完整操作路徑：**\n\n1. **選對頁面** — 聚焦 5~10 個高價值頁面，不求全覆蓋\n2. **固定測試環境** — 鎖定瀏覽器版本、解析度、登入狀態、動態內容\n3. **錄製訪問路徑** — 設計貼近真實用戶操作，第一階段只覆蓋核心頁面\n4. **生成 Baseline** — 三類人（QA/前端/PM）確認後再保存\n5. **觸發回歸運行** — 接入日常發版節奏\n6. **查看差異報告** — 關注：差異區域、類型、面積、來源\n7. **判斷差異來源** — 需求變更（更新 Baseline）/ 開發改動（提缺陷）/ 環境問題（優化配置）",
-  "playwright 定位方式": "**Playwright 定位方式優先級（推薦）：**\n\n1. `getByRole` — 最穩定，貼近用戶感知\n2. `getByLabel` — 表單場景\n3. `getByPlaceholder` — 輸入框佔位符\n4. `getByText` — 文本內容匹配\n5. `getByTestId` — 需前端配合添加 data-testid\n6. `locator + filter` — 組合過濾\n❌ 避免：超長 CSS 路徑、nth-child",
-  "派彩公式": "**世界盃競猜派彩公式：**\n\n`Cash = 下注券數 × 前台顯示賠率 × 每張券對應 Cash 值`\n\n每張券對應固定 Cash 值（最終值待數學確認）。\n\n**4 種結算狀態：**\n- 猜中（待領）→ 顯示立即領獎按鈕\n- 猜中（已領）→ 已派 Cash，按鈕不可操作\n- 未猜中 → 無派彩，保留原投注資訊\n- 改判退券 → 退回原下注券，已派 Cash 不追回",
-  "baseline 质量": "⚠️ **重要警告（Delta-QA）：**\n\nBaseline 的質量決定測試的上限。如果第一張圖就截錯了，工具會把錯誤當成標準，往後所有對比都是錯的——這是視覺測試最容易踩的坑。\n\n**生成 Baseline 前，三類人必須確認：**\n1. QA 負責人\n2. 前端開發\n3. 產品經理",
-  "對押限制": "**世界盃競猜下注規則：**\n\n- 同一場比賽，玩家只能選擇一邊下注，**不可同時押兩邊**\n- 只要賽事尚未鎖盤，可持續針對同一邊續押\n- 續押**不限次數**，也**不限總追加張數**\n- 單次可輸入上限為 999 張\n- 鎖盤時機：開賽前 6 小時",
-  "prompt library 分層": "**Prompt Library 分層架構：**\n\n| 層級 | 作用 |\n|------|------|\n| 基礎模板 | 登錄、查詢、新增、編輯、刪除 |\n| 場景模板 | 審批、導入導出、權限、報表 |\n| 數據模板 | 造數、清理、隔離 |\n| 項目模板 | 具體業務系統的頁面結構 |\n\n**真正值錢的不是某一條腳本，而是能持續生成高質量腳本的方法。**"
-};
+// ── STATE ──
+let activeTab = 'overview';
+let activePerspFilter = '全部';
+let activeSkillCat = '全部';
+let searchQuery = '';
 
-function doQuery() {
-  const q = document.getElementById('queryInput').value.trim();
-  if (!q) return;
-  
-  const result = document.getElementById('queryResult');
-  const text = document.getElementById('resultText');
-  const meta = document.getElementById('resultMeta');
-  
-  // Simple fuzzy match
-  let answer = null;
-  const qlower = q.toLowerCase();
-  for (const [key, val] of Object.entries(WIKI_DATA)) {
-    if (qlower.includes(key) || key.includes(qlower)) {
-      answer = val;
-      break;
-    }
-  }
-  
-  if (!answer) {
-    answer = `📭 Wiki 目前還沒有這個問題的答案。\n\n你可以：\n• 告訴我來源，讓我攝入新知識\n• 問我已收錄的問題（見上方快捷範例）`;
-    meta.textContent = '';
-  } else {
-    meta.textContent = '✅ 回答來自 Wiki 知識庫';
-  }
-  
-  text.textContent = answer;
-  result.classList.add('show');
-  result.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-}
-
-// Enter key submits
-document.getElementById('queryInput').addEventListener('keydown', e => {
-  if (e.key === 'Enter') doQuery();
+// ── INIT ──
+document.addEventListener('DOMContentLoaded', () => {
+  initNavTabs();
+  initPerspFilters();
+  initSkillCatFilters();
+  initNavSearch();
+  renderAll();
 });
+
+function initNavTabs() {
+  document.querySelectorAll('.nav-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      activeTab = tab.dataset.tab;
+      showTab(activeTab);
+    });
+  });
+}
+
+function showTab(tab) {
+  document.getElementById('overview').style.display = tab === 'overview' ? 'block' : 'none';
+  document.getElementById('perspectives-section').classList.toggle('hidden', tab !== 'perspectives');
+  document.getElementById('skills-section').classList.toggle('hidden', tab !== 'skills');
+}
+
+function initPerspFilters() {
+  document.querySelectorAll('#persp-filters .filter-chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      document.querySelectorAll('#persp-filters .filter-chip').forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+      activePerspFilter = chip.dataset.filter;
+      renderPerspectives();
+    });
+  });
+}
+
+function initSkillCatFilters() {
+  // Build category chips dynamically
+  const cats = [...new Set(SKILLS.map(s => s.category))].sort();
+  const container = document.getElementById('skill-cat-filters');
+  const allChip = document.createElement('button');
+  allChip.className = 'filter-chip active';
+  allChip.dataset.filter = '全部';
+  allChip.textContent = '全部';
+  allChip.addEventListener('click', () => {
+    document.querySelectorAll('#skill-cat-filters .filter-chip').forEach(c => c.classList.remove('active'));
+    allChip.classList.add('active');
+    activeSkillCat = '全部';
+    renderSkills();
+  });
+  container.appendChild(allChip);
+  cats.forEach(cat => {
+    const chip = document.createElement('button');
+    chip.className = 'filter-chip';
+    chip.dataset.filter = cat;
+    chip.textContent = cat;
+    chip.addEventListener('click', () => {
+      document.querySelectorAll('#skill-cat-filters .filter-chip').forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+      activeSkillCat = cat;
+      renderSkills();
+    });
+    container.appendChild(chip);
+  });
+}
+
+function initNavSearch() {
+  const input = document.getElementById('navSearch');
+  input.addEventListener('input', () => {
+    searchQuery = input.value.trim().toLowerCase();
+    if (searchQuery) {
+      // Jump to skills tab and filter
+      document.querySelector('[data-tab="skills"]').click();
+      activeSkillCat = '全部';
+      document.querySelectorAll('#skill-cat-filters .filter-chip').forEach(c => {
+        c.classList.toggle('active', c.dataset.filter === '全部');
+      });
+    }
+    renderSkills();
+    renderPerspectives();
+  });
+}
+
+function renderAll() {
+  renderPerspectives();
+  renderSkills();
+}
+
+function getPerspDomainClass(domain) {
+  return domain.replace('/','-');
+}
+
+function renderPerspectives() {
+  const grid = document.getElementById('persp-grid');
+  const empty = document.getElementById('persp-empty');
+  const count = document.getElementById('persp-count');
+
+  let filtered = PERSPECTIVES;
+  if (activePerspFilter !== '全部') {
+    filtered = filtered.filter(p => p.domain === activePerspFilter);
+  }
+  if (searchQuery) {
+    filtered = filtered.filter(p =>
+      p.name.toLowerCase().includes(searchQuery) ||
+      p.desc.toLowerCase().includes(searchQuery) ||
+      p.trigger.toLowerCase().includes(searchQuery) ||
+      p.tagline.toLowerCase().includes(searchQuery)
+    );
+  }
+
+  count.textContent = `${filtered.length} 個`;
+
+  if (filtered.length === 0) {
+    grid.innerHTML = '';
+    empty.classList.remove('hidden');
+    return;
+  }
+  empty.classList.add('hidden');
+
+  grid.innerHTML = filtered.map(p => `
+    <div class="p-card" data-domain="${getPerspDomainClass(p.domain)}">
+      <div class="p-card-header">
+        <span class="p-domain ${getPerspDomainClass(p.domain)}">${p.domain}</span>
+      </div>
+      <div class="p-name">${p.name.replace('-perspective','')}</div>
+      <div class="p-tagline">${p.tagline}</div>
+      <div class="p-desc">${p.desc.slice(0, 120)}${p.desc.length > 120 ? '…' : ''}</div>
+      ${p.trigger ? `<div class="p-trigger"><span>觸發：</span>${p.trigger.slice(0, 100)}${p.trigger.length > 100 ? '…' : ''}</div>` : ''}
+    </div>
+  `).join('');
+}
+
+function renderSkills() {
+  const grid = document.getElementById('skill-grid');
+  const empty = document.getElementById('skill-empty');
+  const count = document.getElementById('skill-count');
+
+  let filtered = SKILLS;
+  if (activeSkillCat !== '全部') {
+    filtered = filtered.filter(s => s.category === activeSkillCat);
+  }
+  if (searchQuery) {
+    filtered = filtered.filter(s =>
+      s.name.toLowerCase().includes(searchQuery) ||
+      (s.desc && s.desc.toLowerCase().includes(searchQuery)) ||
+      (s.trigger && s.trigger.toLowerCase().includes(searchQuery))
+    );
+  }
+
+  count.textContent = `${filtered.length} 個`;
+
+  if (filtered.length === 0) {
+    grid.innerHTML = '';
+    empty.classList.remove('hidden');
+    return;
+  }
+  empty.classList.add('hidden');
+
+  grid.innerHTML = filtered.map(s => `
+    <div class="s-card">
+      <div class="s-card-header">
+        <span class="s-cat">${s.category}</span>
+      </div>
+      <div class="s-name">${s.name}</div>
+      ${s.desc ? `<div class="s-desc">${s.desc.length > 90 ? s.desc.slice(0,90) + '…' : s.desc}</div>` : ''}
+      ${s.trigger ? `<div class="s-trigger"><span>觸發：</span>${s.trigger}</div>` : ''}
+    </div>
+  `).join('');
+}
 </script>
 </body>
 </html>

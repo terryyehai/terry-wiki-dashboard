@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hermes Agent Wiki — Knowledge Dashboard</title>
+<style>
+:root {
+  --bg: #0d0f14;
+  --panel: rgba(255,255,255,0.04);
+  --border: rgba(255,255,255,0.08);
+  --text: #e8e4df;
+  --muted: #7a766f;
+  --accent: #c8a96e;
+  --accent2: #8b9e6e;
+  --green: #6eb89b;
+  --red: #c47070;
+  --blue: #6e8bc8;
+  --purple: #9b7ec8;
+  --chip: rgba(255,255,255,0.06);
+  --radius: 14px;
+  --font: "SF Pro Display", "Noto Sans TC", -apple-system, sans-serif;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  background-image: radial-gradient(ellipse at 20% 0%, rgba(110,100,180,0.08) 0%, transparent 60%),
+                    radial-gradient(ellipse at 80% 100%, rgba(100,160,140,0.06) 0%, transparent 60%);
+  color: var(--text);
+  font-family: var(--font);
+  line-height: 1.7;
+  min-height: 100vh;
+}
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* ── NAV ── */
+nav {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(13,15,20,0.85);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 24px;
+  display: flex; align-items: center; gap: 24px;
+  height: 56px;
+}
+nav .brand {
+  font-size: 15px; font-weight: 800;
+  color: var(--text); letter-spacing: -.02em;
+  display: flex; align-items: center; gap: 8px;
+}
+nav .brand span { font-size: 18px; }
+nav .nav-links { display: flex; gap: 4px; margin-left: auto; }
+nav .nav-link {
+  padding: 6px 14px; border-radius: 8px;
+  font-size: 13px; font-weight: 600;
+  color: var(--muted); transition: .15s;
+}
+nav .nav-link:hover { color: var(--text); background: var(--chip); text-decoration: none; }
+nav .nav-link.active { color: var(--accent); }
+
+/* ── HERO ── */
+.hero {
+  max-width: 1100px; margin: 0 auto;
+  padding: 72px 24px 56px;
+  text-align: center;
+}
+.hero .eyebrow {
+  font-size: 11px; font-weight: 700; letter-spacing: .18em;
+  text-transform: uppercase; color: var(--accent);
+  margin-bottom: 16px;
+}
+.hero h1 {
+  font-size: clamp(32px, 5vw, 52px);
+  font-weight: 900; letter-spacing: -.03em;
+  line-height: 1.15;
+  margin-bottom: 16px;
+  background: linear-gradient(135deg, #e8e4df 0%, #c8a96e 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+.hero p {
+  font-size: 17px; color: var(--muted);
+  max-width: 580px; margin: 0 auto 36px;
+  line-height: 1.8;
+}
+.hero-stats {
+  display: flex; justify-content: center; gap: 32px;
+  flex-wrap: wrap; margin-bottom: 40px;
+}
+.hero-stat {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 18px 28px;
+  min-width: 120px;
+}
+.hero-stat .num {
+  font-size: 32px; font-weight: 900;
+  color: var(--accent); line-height: 1;
+}
+.hero-stat .label {
+  font-size: 12px; color: var(--muted);
+  margin-top: 6px; font-weight: 600;
+}
+
+/* ── SECTION ── */
+.section {
+  max-width: 1100px; margin: 0 auto;
+  padding: 0 24px 64px;
+}
+.section-header {
+  display: flex; align-items: center; gap: 14px;
+  margin-bottom: 24px;
+}
+.section-title {
+  font-size: 13px; font-weight: 800;
+  letter-spacing: .1em; text-transform: uppercase;
+  color: var(--muted);
+}
+.section-title::after {
+  content: '';
+  display: block; height: 1px;
+  background: var(--border); flex: 1; min-width: 40px;
+}
+
+/* ── GRID ── */
+.grid-3 {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 14px;
+}
+
+/* ── CARD ── */
+.card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+  transition: border-color .2s;
+}
+.card:hover { border-color: rgba(255,255,255,0.15); }
+
+/* ── FLOW DIAGRAM ── */
+.flow-diagram {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 40px 32px;
+  display: flex; align-items: center; justify-content: center;
+  gap: 0; flex-wrap: wrap;
+}
+.flow-step {
+  display: flex; flex-direction: column; align-items: center;
+  gap: 10px; padding: 0 20px;
+}
+.flow-icon {
+  width: 56px; height: 56px; border-radius: 16px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 24px;
+}
+.flow-label { font-size: 13px; font-weight: 700; text-align: center; color: var(--text); }
+.flow-desc { font-size: 11px; color: var(--muted); text-align: center; max-width: 100px; }
+.flow-arrow {
+  font-size: 22px; color: var(--border);
+  margin-top: -20px; flex-shrink: 0;
+}
+
+/* ── SKILL GRID ── */
+.skill-category {
+  margin-bottom: 28px;
+}
+.skill-cat-title {
+  font-size: 12px; font-weight: 800;
+  letter-spacing: .1em; text-transform: uppercase;
+  color: var(--accent); margin-bottom: 10px;
+  display: flex; align-items: center; gap: 8px;
+}
+.skill-cat-title::before {
+  content: ''; width: 3px; height: 14px;
+  background: var(--accent); border-radius: 2px;
+}
+.skill-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+.skill-tag {
+  display: inline-flex; align-items: center; gap: 5px;
+  background: var(--chip);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 5px 10px;
+  font-size: 12px; font-weight: 600;
+  color: var(--text);
+  cursor: default;
+  transition: border-color .15s, background .15s;
+}
+.skill-tag:hover { border-color: var(--accent); background: rgba(200,169,110,0.08); }
+.skill-tag .skill-count {
+  background: var(--accent); color: #0d0f14;
+  border-radius: 999px;
+  padding: 1px 6px;
+  font-size: 10px; font-weight: 800;
+}
+
+/* ── WIKI TREE ── */
+.wiki-tree { display: flex; flex-direction: column; gap: 10px; }
+.wiki-node {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+.wiki-node-header {
+  padding: 14px 16px;
+  display: flex; align-items: center; gap: 10px;
+  cursor: pointer;
+  transition: background .15s;
+}
+.wiki-node-header:hover { background: rgba(255,255,255,0.03); }
+.wiki-node-icon { font-size: 18px; }
+.wiki-node-label {
+  font-size: 14px; font-weight: 700; flex: 1;
+}
+.wiki-node-count {
+  font-size: 11px; color: var(--muted);
+  background: var(--chip); padding: 2px 8px;
+  border-radius: 999px;
+}
+.wiki-node-body {
+  border-top: 1px solid var(--border);
+  padding: 12px 16px;
+  display: none;
+}
+.wiki-node.open .wiki-node-body { display: block; }
+.wiki-node.open .wiki-node-header .arrow { transform: rotate(90deg); }
+.arrow { font-size: 12px; transition: transform .2s; color: var(--muted); }
+.wiki-child {
+  display: flex; align-items: center; gap: 8px;
+  padding: 6px 0;
+  font-size: 13px; color: var(--text);
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+.wiki-child:last-child { border-bottom: none; }
+.wiki-child .type-badge {
+  font-size: 9px; font-weight: 800; letter-spacing: .08em;
+  text-transform: uppercase;
+  padding: 2px 6px; border-radius: 4px;
+  flex-shrink: 0;
+}
+.badge-entity { background: rgba(110,140,200,0.2); color: var(--blue); }
+.badge-concept { background: rgba(155,126,200,0.2); color: var(--purple); }
+.badge-raw { background: rgba(110,184,155,0.2); color: var(--green); }
+
+/* ── QUERY BOX ── */
+.query-box {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 32px;
+}
+.query-box h3 {
+  font-size: 18px; font-weight: 800; margin-bottom: 8px;
+}
+.query-box p { font-size: 14px; color: var(--muted); margin-bottom: 20px; }
+.query-form { display: flex; gap: 10px; flex-wrap: wrap; }
+.query-input {
+  flex: 1; min-width: 240px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 12px 16px;
+  font-size: 14px; font-family: inherit;
+  color: var(--text); outline: none;
+  transition: border-color .2s;
+}
+.query-input:focus { border-color: var(--accent); }
+.query-input::placeholder { color: var(--muted); }
+.query-btn {
+  background: var(--accent); color: #0d0f14;
+  border: none; border-radius: 10px;
+  padding: 12px 24px;
+  font-size: 14px; font-weight: 800;
+  cursor: pointer; transition: opacity .15s;
+}
+.query-btn:hover { opacity: 0.85; }
+.query-result {
+  margin-top: 20px;
+  border-top: 1px solid var(--border);
+  padding-top: 20px;
+  display: none;
+}
+.query-result.show { display: block; }
+.query-result .result-text {
+  font-size: 14px; line-height: 1.9;
+  color: var(--text); white-space: pre-wrap;
+}
+.query-result .result-meta {
+  font-size: 12px; color: var(--muted); margin-top: 10px;
+}
+.example-queries { margin-top: 14px; display: flex; flex-wrap: wrap; gap: 8px; }
+.example-q {
+  background: var(--chip); border: 1px solid var(--border);
+  border-radius: 8px; padding: 5px 10px;
+  font-size: 12px; color: var(--muted);
+  cursor: pointer; transition: color .15s, border-color .15s;
+}
+.example-q:hover { color: var(--accent); border-color: var(--accent); }
+
+/* ── FOOTER ── */
+footer {
+  border-top: 1px solid var(--border);
+  padding: 28px 24px;
+  text-align: center;
+  font-size: 12px; color: var(--muted);
+  max-width: 1100px; margin: 0 auto;
+}
+footer a { color: var(--muted); }
+footer a:hover { color: var(--accent); text-decoration: none; }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="brand"><span>🧠</span> Hermes Wiki</div>
+  <div class="nav-links">
+    <a class="nav-link active" href="#overview">總覽</a>
+    <a class="nav-link" href="#skills">技能清單</a>
+    <a class="nav-link" href="#structure">知識結構</a>
+    <a class="nav-link" href="#loop">學習迴圈</a>
+    <a class="nav-link" href="#query">查詢</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="overview">
+  <div class="eyebrow">Hermes Agent — Personal Knowledge OS</div>
+  <h1>打造會長大的知識庫</h1>
+  <p>將來自文章、訪談、產品的碎片知識，沉澱成可搜索、可交叉引用、可持續迭代的 wiki。知識在前，工具在後。</p>
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <div class="num">182</div>
+      <div class="label">Skills</div>
+    </div>
+    <div class="hero-stat">
+      <div class="num">22</div>
+      <div class="label">人物視角</div>
+    </div>
+    <div class="hero-stat">
+      <div class="num">9</div>
+      <div class="label">Wiki 頁面</div>
+    </div>
+    <div class="hero-stat">
+      <div class="num">4</div>
+      <div class="label">領域</div>
+    </div>
+    <div class="hero-stat">
+      <div class="num">6</div>
+      <div class="label">股票分析 Skill</div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS INVENTORY -->
+<section class="section" id="skills">
+  <div class="section-header">
+    <div class="section-title">Skill 全景圖</div>
+  </div>
+  <div class="card" style="max-height: 600px; overflow-y: auto;">
+
+<div class="skill-category"><div class="skill-cat-title">wealth-management (22)</div><div class="skill-tags">
+<span class="skill-tag">技術價格追蹤系統 <span class="skill-count">1</span></span>
+<span class="skill-tag">stock-name-mapping-maintenance <span class="skill-count">1</span></span>
+<span class="skill-tag">高級股票分析系統 <span class="skill-count">1</span></span>
+<span class="skill-tag">taiwan-stock-optimization <span class="skill-count">1</span></span>
+<span class="skill-tag">quantitative-trade-tracking-sop <span class="skill-count">1</span></span>
+<span class="skill-tag">地緣政治事件分析 <span class="skill-count">1</span></span>
+<span class="skill-tag">trading-agents-integration <span class="skill-count">1</span></span>
+<span class="skill-tag">daily-watchlist-quantitative-analysis <span class="skill-count">1</span></span>
+<span class="skill-tag">quant-portfolio-analysis <span class="skill-count">1</span></span>
+<span class="skill-tag">portfolio-strategy <span class="skill-count">1</span></span>
+<span class="skill-tag">wealth-management-committee-review <span class="skill-count">1</span></span>
+<span class="skill-tag">00981A 主動追蹤 <span class="skill-count">1</span></span>
+<span class="skill-tag">taiwan-stock-data-recovery <span class="skill-count">1</span></span>
+<span class="skill-tag">stock-recommendation-scoring-system <span class="skill-count">1</span></span>
+<span class="skill-tag">beginner-friendly-stock-analysis-report <span class="skill-count">1</span></span>
+<span class="skill-tag">stock-mapping-troubleshooting <span class="skill-count">1</span></span>
+<span class="skill-tag">mcp-openbb-integration <span class="skill-count">1</span></span>
+<span class="skill-tag">surgical-portfolio-rotation <span class="skill-count">1</span></span>
+<span class="skill-tag">stock-name-mapping-debug <span class="skill-count">1</span></span>
+<span class="skill-tag">taiwan-stock-data-maintenance <span class="skill-count">1</span></span>
+<span class="skill-tag">nuwa-mind-distillation <span class="skill-count">1</span></span>
+<span class="skill-tag">etf-phased-entry-strategy <span class="skill-count">1</span></span>
+</div></div>
+
+<div class="skill-category"><div class="skill-cat-title">devops (26)</div><div class="skill-tags">
+<span class="skill-tag">hermes-onboarding-audit</span>
+<span class="skill-tag">webhook-subscriptions</span>
+<span class="skill-tag">js-eyes-deployment</span>
+<span class="skill-tag">minimax-api-setup</span>
+<span class="skill-tag">docker-deployment-timeouts</span>
+<span class="skill-tag">hermes-model-audit</span>
+<span class="skill-tag">hermes-startup-memory-bootstrap</span>
+<span class="skill-tag">env-file-display-pitfall</span>
+<span class="skill-tag">minimax-official-auth-fix</span>
+<span class="skill-tag">service-recovery-debug</span>
+<span class="skill-tag">hermes-js-eyes</span>
+<span class="skill-tag">model-picker-maintenance</span>
+<span class="skill-tag">cron-delivery-fix</span>
+<span class="skill-tag">hermes-cron-audit</span>
+<span class="skill-tag">api-quota-optimization</span>
+<span class="skill-tag">hermes-memory-improvement</span>
+<span class="skill-tag">js-eyes</span>
+<span class="skill-tag">restart-hermes-agent</span>
+<span class="skill-tag">diagnose-model-failures</span>
+<span class="skill-tag">hermes-model-optimization-config</span>
+<span class="skill-tag">fix-cron-telegram-delivery</span>
+<span class="skill-tag">openclaw-to-hermes-migration</span>
+<span class="skill-tag">openclaw-recovery</span>
+<span class="skill-tag">nvidia-api-config-debug</span>
+<span class="skill-tag">fix-model-visibility-and-minimax</span>
+<span class="skill-tag">minimax-cron-troubleshooting</span>
+</div></div>
+
+<div class="skill-category"><div class="skill-cat-title">perspectives (22)</div><div class="skill-tags">
+<span class="skill-tag">孫宇晨</span>
+<span class="skill-tag">馬斯克</span>
+<span class="skill-tag">蒙格</span>
+<span class="skill-tag">簡立峰</span>
+<span class="skill-tag">卡帕西</span>
+<span class="skill-tag">賈伯斯</span>
+<span class="skill-tag">郭德鴰</span>
+<span class="skill-tag">蘇茲克弗</span>
+<span class="skill-tag">張雪峯</span>
+<span class="skill-tag">塔雷伯</span>
+<span class="skill-tag">霍華馬克斯</span>
+<span class="skill-tag">川普</span>
+<span class="skill-tag">阿格力</span>
+<span class="skill-tag">尼沃</span>
+<span class="skill-tag">MrBeast</span>
+<span class="skill-tag">費曼</span>
+<span class="skill-tag">X大師</span>
+<span class="skill-tag">皓哥</span>
+<span class="skill-tag">張一鳴</span>
+<span class="skill-tag">清流君</span>
+<span class="skill-tag">哲哲</span>
+<span class="skill-tag">葛拉罕</span>
+</div></div>
+
+<div class="skill-category"><div class="skill-cat-title">openclaw-imports (20)</div><div class="skill-tags">
+<span class="skill-tag">agent-browser</span>
+<span class="skill-tag">openclaw-smart-router</span>
+<span class="skill-tag">openclaw-mission-control</span>
+<span class="skill-tag">stock-study</span>
+<span class="skill-tag">openclaw-cron-setup</span>
+<span class="skill-tag">opencli-tool</span>
+<span class="skill-tag">portfolio-risk-manager</span>
+<span class="skill-tag">tw-stock-info</span>
+<span class="skill-tag">bb-browser</span>
+<span class="skill-tag">buffett</span>
+<span class="skill-tag">opencli</span>
+<span class="skill-tag">skill-vetter</span>
+<span class="skill-tag">portfolio-tracker</span>
+<span class="skill-tag">openclaw-backup</span>
+<span class="skill-tag">memory-setup</span>
+<span class="skill-tag">investment-portfolio</span>
+<span class="skill-tag">self-improving-agent</span>
+<span class="skill-tag">openclaw-control-center</span>
+<span class="skill-tag">portfolio-manager</span>
+<span class="skill-tag">openclaw-skill-cron-scheduler</span>
+</div></div>
+
+<div class="skill-category"><div class="skill-cat-title">creative (13)</div><div class="skill-tags">
+<span class="skill-tag">creative-ideation</span>
+<span class="skill-tag">manim-video</span>
+<span class="skill-tag">popular-web-designs</span>
+<span class="skill-tag">excalidraw</span>
+<span class="skill-tag">p5js</span>
+<span class="skill-tag">ascii-video</span>
+<span class="skill-tag">design-md</span>
+<span class="skill-tag">baoyu-infographic</span>
+<span class="skill-tag">pixel-art</span>
+<span class="skill-tag">architecture-diagram</span>
+<span class="skill-tag">baoyu-comic</span>
+<span class="skill-tag">songwriting-and-ai-music</span>
+<span class="skill-tag">ascii-art</span>
+</div></div>
+
+<div class="skill-category"><div class="skill-cat-title">productivity (13)</div><div class="skill-tags">
+<span class="skill-tag">powerpoint</span>
+<span class="skill-tag">quant-analysis-professional-standard</span>
+<span class="skill-tag">notion</span>
+<span class="skill-tag">google-workspace</span>
+<span class="skill-tag">maps</span>
+<span class="skill-tag">qiaomu-anything-to-notebooklm</span>
+<span class="skill-tag">nano-pdf</span>
+<span class="skill-tag">high-performance-secretary</span>
+<span class="skill-tag">linear</span>
+<span class="skill-tag">knowledge-base-management</span>
+<span class="skill-tag">ocr-and-documents</span>
+<span class="skill-tag">project-manager</span>
+<span class="skill-tag">health-management-secretary</span>
+</div></div>
+
+<div class="skill-category"><div class="skill-cat-title">data-science (9)</div><div class="skill-tags">
+<span class="skill-tag">mass-stock-screening-pipeline</span>
+<span class="skill-tag">matplotlib-chinese-font-setup</span>
+<span class="skill-tag">wealth-management-agent</span>
+<span class="skill-tag">pocket-tw-etf-api-reverse-engineering</span>
+<span class="skill-tag">buffett</span>
+<span class="skill-tag">jupyter-live-kernel</span>
+<span class="skill-tag">macro-db-activation</span>
+<span class="skill-tag">wealth-management-shadow-tracking</span>
+<span class="skill-tag">taiwan-stock-analysis</span>
+</div></div>
+
+<div class="skill-category"><div class="skill-cat-title">research (7)</div><div class="skill-tags">
+<span class="skill-tag">polymarket</span>
+<span class="skill-tag">blogwatcher</span>
+<span class="skill-tag">research-paper-writing</span>
+<span class="skill-tag">llm-wiki</span>
+<span class="skill-tag">browser-tabular-extraction</span>
+<span class="skill-tag">arxiv</span>
+<span class="skill-tag">nuwa-skill</span>
+</div></div>
+
+<div class="skill-category"><div class="skill-cat-title">github (6)</div><div class="skill-tags">
+<span class="skill-tag">github-code-review</span>
+<span class="skill-tag">codebase-inspection</span>
+<span class="skill-tag">github-pr-workflow</span>
+<span class="skill-tag">github-repo-management</span>
+<span class="skill-tag">github-issues</span>
+<span class="skill-tag">github-auth</span>
+</div></div>
+
+<div class="skill-category"><div class="skill-cat-title">其他</div><div class="skill-tags">
+<span class="skill-tag">advanced-web-extraction</span>
+<span class="skill-tag">apple (4)</span>
+<span class="skill-tag">autonomous-ai-agents (4)</span>
+<span class="skill-tag">media (5)</span>
+<span class="skill-tag">mcp (2)</span>
+<span class="skill-tag">mlops (2)</span>
+<span class="skill-tag">hermes (1)</span>
+<span class="skill-tag">leisure (1)</span>
+<span class="skill-tag">email (1)</span>
+<span class="skill-tag">gaming (2)</span>
+<span class="skill-tag">social-media (2)</span>
+<span class="skill-tag">smart-home (1)</span>
+<span class="skill-tag">note-taking (1)</span>
+<span class="skill-tag">red-teaming (1)</span>
+<span class="skill-tag">dogfood (1)</span>
+</div></div>
+
+  </div>
+</section>
+
+<!-- WIKI STRUCTURE -->
+<section class="section" id="structure">
+  <div class="section-header">
+    <div class="section-title">知識庫結構</div>
+  </div>
+  <div class="wiki-tree">
+
+<div class="wiki-node open" onclick="toggleNode(this)">
+  <div class="wiki-node-header">
+    <span class="arrow">▶</span>
+    <span class="wiki-node-icon">🧠</span>
+    <span class="wiki-node-label">Wiki Home</span>
+    <span class="wiki-node-count">15 files</span>
+  </div>
+  <div class="wiki-node-body">
+    <div class="wiki-child"><span class="type-badge badge-raw">raw</span> raw/articles/delta-qa-visual-regression-2026.md</div>
+    <div class="wiki-child"><span class="type-badge badge-raw">raw</span> raw/articles/delta-qa-hands-on-2026.md</div>
+    <div class="wiki-child"><span class="type-badge badge-raw">raw</span> raw/articles/ai-playwright-automation-2026.md</div>
+    <div class="wiki-child"><span class="type-badge badge-raw">raw</span> raw/articles/world-cup-picks-spec-2026.md</div>
+    <div class="wiki-child"><span class="type-badge badge-entity">entity</span> entities/playwright.md</div>
+    <div class="wiki-child"><span class="type-badge badge-entity">entity</span> entities/world-cup-picks.md</div>
+    <div class="wiki-child"><span class="type-badge badge-entity">entity</span> entities/picks-prediction-page.md</div>
+    <div class="wiki-child"><span class="type-badge badge-concept">concept</span> concepts/delta-qa.md</div>
+    <div class="wiki-child"><span class="type-badge badge-concept">concept</span> concepts/visual-regression-testing.md</div>
+    <div class="wiki-child"><span class="type-badge badge-concept">concept</span> concepts/test-pyramid.md</div>
+    <div class="wiki-child"><span class="type-badge badge-concept">concept</span> concepts/ai-playwright-automation.md</div>
+    <div class="wiki-child"><span class="type-badge badge-concept">concept</span> concepts/picks-payout-rules.md</div>
+  </div>
+</div>
+
+<div class="wiki-node" onclick="toggleNode(this)">
+  <div class="wiki-node-header">
+    <span class="arrow">▶</span>
+    <span class="wiki-node-icon">⚙️</span>
+    <span class="wiki-node-label">AI / Vibe Coding / 提示詞</span>
+    <span class="wiki-node-count">2 pages</span>
+  </div>
+  <div class="wiki-node-body">
+    <div class="wiki-child"><span class="type-badge badge-entity">entity</span> Playwright — E2E 測試框架</div>
+    <div class="wiki-child"><span class="type-badge badge-concept">concept</span> AI+Playwright 自動化 — 16 個提示詞模板</div>
+  </div>
+</div>
+
+<div class="wiki-node" onclick="toggleNode(this)">
+  <div class="wiki-node-header">
+    <span class="arrow">▶</span>
+    <span class="wiki-node-icon">🧪</span>
+    <span class="wiki-node-label">軟體測試</span>
+    <span class="wiki-node-count">3 pages</span>
+  </div>
+  <div class="wiki-node-body">
+    <div class="wiki-child"><span class="type-badge badge-concept">concept</span> Delta-QA — 視覺回歸測試工具</div>
+    <div class="wiki-child"><span class="type-badge badge-concept">concept</span> 視覺回歸測試 — 像素級截圖比對</div>
+    <div class="wiki-child"><span class="type-badge badge-concept">concept</span> 測試金字塔 — 分層測試策略</div>
+  </div>
+</div>
+
+<div class="wiki-node" onclick="toggleNode(this)">
+  <div class="wiki-node-header">
+    <span class="arrow">▶</span>
+    <span class="wiki-node-icon">⚽</span>
+    <span class="wiki-node-label">產品規格</span>
+    <span class="wiki-node-count">2 pages</span>
+  </div>
+  <div class="wiki-node-body">
+    <div class="wiki-child"><span class="type-badge badge-entity">entity</span> 世界盃競猜活動 (PICKS) — 完整規格</div>
+    <div class="wiki-child"><span class="type-badge badge-concept">concept</span> 派彩與退券規則</div>
+  </div>
+</div>
+
+<div class="wiki-node" onclick="toggleNode(this)">
+  <div class="wiki-node-header">
+    <span class="arrow">▶</span>
+    <span class="wiki-node-icon">📚</span>
+    <span class="wiki-node-label">人物視角 Perspectiv</span>
+    <span class="wiki-node-count">22 個蒸餾人物</span>
+  </div>
+  <div class="wiki-node-body">
+    <div class="wiki-child"><span class="type-badge badge-concept">concept</span> 孫宇晨 · 馬斯克 · 蒙格 · 簡立峰 · 卡帕西 · 賈伯斯 · 郭德鴰 · 蘇茲克弗 · 張雪峯 · 塔雷伯 · 霍華馬克斯 · 川普 · 阿格力 · 尼沃 · MrBeast · 費曼 · X大師 · 皓哥 · 張一鳴 · 清流君 · 哲哲 · 葛拉罕</div>
+  </div>
+</div>
+
+  </div>
+</section>
+
+<!-- LEARNING LOOP -->
+<section class="section" id="loop">
+  <div class="section-header">
+    <div class="section-title">學習迴圈 — Knowledge Flywheel</div>
+  </div>
+  <div class="flow-diagram">
+  <div class="flow-step">
+    <div class="flow-icon" style="background: rgba(200,169,110,0.15);">📥</div>
+    <div class="flow-label">攝入 Ingest</div>
+    <div class="flow-desc">文章 / 訪談 / 訪談 / 規格書 → raw/</div>
+  </div>
+  <div class="flow-arrow">→</div>
+  <div class="flow-step">
+    <div class="flow-icon" style="background: rgba(110,140,200,0.15);">🔬</div>
+    <div class="flow-label">蒸餾 Distill</div>
+    <div class="flow-desc">萃取要點 → 概念頁 / 實體頁</div>
+  </div>
+  <div class="flow-arrow">→</div>
+  <div class="flow-step">
+    <div class="flow-icon" style="background: rgba(155,126,200,0.15);">🔗</div>
+    <div class="flow-label">連結 Link</div>
+    <div class="flow-desc">Wikilinks 交叉引用 → 知識網絡</div>
+  </div>
+  <div class="flow-arrow">→</div>
+  <div class="flow-step">
+    <div class="flow-icon" style="background: rgba(110,184,155,0.15);">💾</div>
+    <div class="flow-label">沉積 Preserve</div>
+    <div class="flow-desc">更新 index + log → SHA256 drift 檢測</div>
+  </div>
+  <div class="flow-arrow">→</div>
+  <div class="flow-step">
+    <div class="flow-icon" style="background: rgba(196,112,112,0.15);">❓</div>
+    <div class="flow-label">查詢 Query</div>
+    <div class="flow-desc">提問 → 跨頁面綜合回答</div>
+  </div>
+  <div class="flow-arrow">→</div>
+  <div class="flow-step">
+    <div class="flow-icon" style="background: rgba(200,169,110,0.15);">🚀</div>
+    <div class="flow-label">迭代 Iterate</div>
+    <div class="flow-desc">新來源 → 修補 / 更新 / 標記矛盾</div>
+  </div>
+</div>
+
+<div style="margin-top: 20px; display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px;">
+  <div class="card" style="padding: 16px;">
+    <div style="font-size: 13px; font-weight: 800; color: var(--accent); margin-bottom: 6px;">📌 Wiki 不等於 RAG</div>
+    <div style="font-size: 12px; color: var(--muted); line-height: 1.7;">RAG 每次從零搜尋。Wiki 知識已沉澱好，查詢時直接推理。長期累積 vs 每次重新發現。</div>
+  </div>
+  <div class="card" style="padding: 16px;">
+    <div style="font-size: 13px; font-weight: 800; color: var(--accent); margin-bottom: 6px;">🔍 矛盾追蹤</div>
+    <div style="font-size: 12px; color: var(--muted); line-height: 1.7;">新資訊與舊內容衝突時 → 明確標記 contested=true → 標明雙方來源與日期 → 交由使用者判斷。</div>
+  </div>
+  <div class="card" style="padding: 16px;">
+    <div style="font-size: 13px; font-weight: 800; color: var(--accent); margin-bottom: 6px;">🧪 Lint 健康檢查</div>
+    <div style="font-size: 12px; color: var(--muted); line-height: 1.7;">定期檢查：孤兒頁面、斷裂連結、過時內容、source drift、標籤taxonomy偏離。保持 wiki 乾淨。</div>
+  </div>
+</div>
+</section>
+
+<!-- QUERY BOX -->
+<section class="section" id="query">
+  <div class="section-header">
+    <div class="section-title">查詢 Wiki 知識庫</div>
+  </div>
+  <div class="query-box">
+    <h3>🔍 問我任何 wiki 裡的知識</h3>
+    <p>輸入問題，我會去 wiki 搜尋並綜合回答。目前涵蓋：Playwright、Delta-QA、AI自動化、世界盃競猜活動。</p>
+    <div class="query-form">
+      <input class="query-input" id="queryInput" type="text" placeholder="例如：Delta-QA 的 Baseline 是什麼？或：世界盃競猜的派彩公式？" />
+      <button class="query-btn" onclick="doQuery()">查詢</button>
+    </div>
+    <div class="example-queries">
+      <span class="example-q" onclick="fillQuery(this)">Delta-QA 7步操作</span>
+      <span class="example-q" onclick="fillQuery(this)">Playwright 定位方式</span>
+      <span class="example-q" onclick="fillQuery(this)">派彩公式</span>
+      <span class="example-q" onclick="fillQuery(this)">Baseline 质量</span>
+      <span class="example-q" onclick="fillQuery(this)">對押限制</span>
+      <span class="example-q" onclick="fillQuery(this)">Prompt Library 分層</span>
+    </div>
+    <div class="query-result" id="queryResult">
+      <div class="result-text" id="resultText"></div>
+      <div class="result-meta" id="resultMeta"></div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>Hermes Wiki · 部署於 GitHub Pages · <a href="https://github.com/terryyehai/terry-wiki">Source</a> · <a href="https://terryyehai.github.io/terry-wiki/">Wiki →</a></p>
+</footer>
+
+<script>
+// Toggle wiki tree nodes
+function toggleNode(el) {
+  el.classList.toggle('open');
+}
+
+// Fill example query
+function fillQuery(el) {
+  document.getElementById('queryInput').value = el.textContent;
+  el.style.color = 'var(--accent)';
+  setTimeout(() => el.style.color = '', 300);
+}
+
+// Query simulation (client-side wiki search)
+const WIKI_DATA = {
+  "delta-qa 7步操作": "**Delta-QA 7 步完整操作路徑：**\n\n1. **選對頁面** — 聚焦 5~10 個高價值頁面，不求全覆蓋\n2. **固定測試環境** — 鎖定瀏覽器版本、解析度、登入狀態、動態內容\n3. **錄製訪問路徑** — 設計貼近真實用戶操作，第一階段只覆蓋核心頁面\n4. **生成 Baseline** — 三類人（QA/前端/PM）確認後再保存\n5. **觸發回歸運行** — 接入日常發版節奏\n6. **查看差異報告** — 關注：差異區域、類型、面積、來源\n7. **判斷差異來源** — 需求變更（更新 Baseline）/ 開發改動（提缺陷）/ 環境問題（優化配置）",
+  "playwright 定位方式": "**Playwright 定位方式優先級（推薦）：**\n\n1. `getByRole` — 最穩定，貼近用戶感知\n2. `getByLabel` — 表單場景\n3. `getByPlaceholder` — 輸入框佔位符\n4. `getByText` — 文本內容匹配\n5. `getByTestId` — 需前端配合添加 data-testid\n6. `locator + filter` — 組合過濾\n❌ 避免：超長 CSS 路徑、nth-child",
+  "派彩公式": "**世界盃競猜派彩公式：**\n\n`Cash = 下注券數 × 前台顯示賠率 × 每張券對應 Cash 值`\n\n每張券對應固定 Cash 值（最終值待數學確認）。\n\n**4 種結算狀態：**\n- 猜中（待領）→ 顯示立即領獎按鈕\n- 猜中（已領）→ 已派 Cash，按鈕不可操作\n- 未猜中 → 無派彩，保留原投注資訊\n- 改判退券 → 退回原下注券，已派 Cash 不追回",
+  "baseline 质量": "⚠️ **重要警告（Delta-QA）：**\n\nBaseline 的質量決定測試的上限。如果第一張圖就截錯了，工具會把錯誤當成標準，往後所有對比都是錯的——這是視覺測試最容易踩的坑。\n\n**生成 Baseline 前，三類人必須確認：**\n1. QA 負責人\n2. 前端開發\n3. 產品經理",
+  "對押限制": "**世界盃競猜下注規則：**\n\n- 同一場比賽，玩家只能選擇一邊下注，**不可同時押兩邊**\n- 只要賽事尚未鎖盤，可持續針對同一邊續押\n- 續押**不限次數**，也**不限總追加張數**\n- 單次可輸入上限為 999 張\n- 鎖盤時機：開賽前 6 小時",
+  "prompt library 分層": "**Prompt Library 分層架構：**\n\n| 層級 | 作用 |\n|------|------|\n| 基礎模板 | 登錄、查詢、新增、編輯、刪除 |\n| 場景模板 | 審批、導入導出、權限、報表 |\n| 數據模板 | 造數、清理、隔離 |\n| 項目模板 | 具體業務系統的頁面結構 |\n\n**真正值錢的不是某一條腳本，而是能持續生成高質量腳本的方法。**"
+};
+
+function doQuery() {
+  const q = document.getElementById('queryInput').value.trim();
+  if (!q) return;
+  
+  const result = document.getElementById('queryResult');
+  const text = document.getElementById('resultText');
+  const meta = document.getElementById('resultMeta');
+  
+  // Simple fuzzy match
+  let answer = null;
+  const qlower = q.toLowerCase();
+  for (const [key, val] of Object.entries(WIKI_DATA)) {
+    if (qlower.includes(key) || key.includes(qlower)) {
+      answer = val;
+      break;
+    }
+  }
+  
+  if (!answer) {
+    answer = `📭 Wiki 目前還沒有這個問題的答案。\n\n你可以：\n• 告訴我來源，讓我攝入新知識\n• 問我已收錄的問題（見上方快捷範例）`;
+    meta.textContent = '';
+  } else {
+    meta.textContent = '✅ 回答來自 Wiki 知識庫';
+  }
+  
+  text.textContent = answer;
+  result.classList.add('show');
+  result.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+// Enter key submits
+document.getElementById('queryInput').addEventListener('keydown', e => {
+  if (e.key === 'Enter') doQuery();
+});
+</script>
+</body>
+</html>
